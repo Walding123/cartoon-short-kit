@@ -1,0 +1,9 @@
+node_modules/
+frames/
+out/
+work/
+stills/
+*.wav
+*.mp4
+web/toon.js
+web/story.js

@@ -1,0 +1,7 @@
+{
+  "name": "cartoon-short-kit",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Kit video kartun pendek vertikal (three.js toon + ffmpeg)",
+  "dependencies": { "playwright-core": "^1.64.1", "three": "^0.160.0" }
+}
