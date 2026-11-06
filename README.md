@@ -17,8 +17,6 @@ Revisi suara/subtitle cukup ulang langkah 5-7, tanpa render ulang.
 - `web/` mesin: `toonbase.js` (Pen API, MIT, dari mromidev/claude-animated-shorts), `cast.js` karakter, `paint.js` tekstur, `engine.js`, `world.js` set (lab, jalan, makro, kamar).
 - `examples/penisilin/` contoh lengkap (22 shot, 76 detik).
 
-## Animantra: Vector (paket kedua, berbayar: repo ini harus tetap privat)
-
 ## Isi repo
 - Kartun tokoh: `web/`, `render.mjs`, `examples/`. Bedah benda: folder `bedah/`. Mulai dari `KATALOG.md`, di sana ada pilihan jenis dan format video.
 - Catatan jebakan: `docs/CATATAN.md` (kartun), `docs/CATATAN-BEDAH.md` (bedah).
