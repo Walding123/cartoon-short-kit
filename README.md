@@ -19,3 +19,9 @@ Revisi suara/subtitle cukup ulang langkah 5-7, tanpa render ulang.
 
 ## Animantra: Vector (paket kedua, berbayar: repo ini harus tetap privat)
 Folder `animantra-vector/`: video "Kita Bongkar" 9:16 gaya bedah 3D (11 format). Mulai dari `animantra-vector/KATALOG.md`, jebakan di `animantra-vector/docs/CATATAN.md`. Hanya teks/kode; audio & hasil render tidak disimpan.
+
+## Lisensi
+
+Kit kartun pendek ini (semua file di luar folder `animantra-vector/`) berlisensi MIT, lihat `LICENSE`. Boleh dipakai, diubah, dan dibagikan, termasuk untuk video komersial.
+
+Folder `animantra-vector/` **bukan** bagian dari lisensi MIT ini. Folder itu tetap memakai syarat di `animantra-vector/LISENSI.md` (tidak boleh dijual atau dibagikan ulang tanpa izin penjualnya). Font di dalamnya memakai SIL Open Font License 1.1.
