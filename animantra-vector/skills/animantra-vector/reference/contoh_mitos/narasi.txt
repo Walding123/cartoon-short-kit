@@ -1,0 +1,10 @@
+Charger dicolok terus, padahal HP-nya nggak ada. Katanya… bikin token cepat habis.
+Benar nggak? Yuk, kita uji.
+Tanpa HP, nggak ada yang diisi. Tapi IC di dalam charger tetap berjaga, siap kalau HP datang.
+Penjagaan ini butuh listrik. Tapi charger modern dibatasi aturan: paling banyak 0,1 watt.
+Kita hitung. 0,1 watt kali 24 jam kali 30 hari… cuma 72 watt-jam.
+Dengan tarif 1.444 rupiah per kWh, itu sekitar… seratus rupiah sebulan.
+Lampu LED 9 watt menghabiskan listrik sebanyak itu dalam 8 jam saja.
+Jadi, charger dicolok terus bikin boros? Mitos!
+Tapi… charger murahan atau yang sudah rusak bisa panas. Nah, itu yang berbahaya.
+Makanya, cabut charger kalau nggak dipakai. Bukan demi hemat, tapi demi aman.

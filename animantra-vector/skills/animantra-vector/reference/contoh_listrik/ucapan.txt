@@ -1,0 +1,12 @@
+Listrik di dinding ini dua ratus dua puluh volt, cukup buat bikin kamu kesetrum.
+Tapi hape-mu cuma butuh lima volt. Kok bisa aman? Yuk, ikuti perjalanan listriknya.
+Dari tiang pe-el-en, listrik masuk ke meteran. Di sinilah setiap kilowatt-jam yang kamu pakai dihitung.
+Di sebelahnya ada em-se-be, si penjaga batas daya. Rumah seribu tiga ratus ve-a dijaga em-se-be enam ampere.
+Kalau terlalu banyak alat nyala bareng, arus naik, keping bimetal di dalamnya memanas... dan melengkung.
+Klik! Listrik satu rumah diputus, sebelum kabelnya kepanasan.
+Kalau korsleting, arus melonjak berkali-kali lipat. Kumparan magnet langsung menarik pemutus, cuma dalam hitungan milidetik.
+Lolos dari em-se-be, listrik mengalir lewat kabel di dalam tembok, sampai ke stopkontak.
+Di sini, listriknya bolak-balik, berganti arah lima puluh kali tiap detik.
+Nah, rahasianya di charger. Listrik diluruskan dulu, lalu dicacah puluhan ribu kali per detik, supaya trafo mininya bisa menurunkannya jadi lima volt.
+Jadi, ada tiga penjaga: meteran yang menghitung, em-se-be yang memutus, dan charger yang menurunkan.
+Makanya, kalau em-se-be sering turun, jangan diganjal. Kurangi alat yang nyala barengan.

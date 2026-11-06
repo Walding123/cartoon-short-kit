@@ -16,3 +16,6 @@ Revisi suara/subtitle cukup ulang langkah 5-7, tanpa render ulang.
 ## Struktur
 - `web/` mesin: `toonbase.js` (Pen API, MIT, dari mromidev/claude-animated-shorts), `cast.js` karakter, `paint.js` tekstur, `engine.js`, `world.js` set (lab, jalan, makro, kamar).
 - `examples/penisilin/` contoh lengkap (22 shot, 76 detik).
+
+## Animantra: Vector (paket kedua, berbayar: repo ini harus tetap privat)
+Folder `animantra-vector/`: video "Kita Bongkar" 9:16 gaya bedah 3D (11 format). Mulai dari `animantra-vector/KATALOG.md`, jebakan di `animantra-vector/docs/CATATAN.md`. Hanya teks/kode; audio & hasil render tidak disimpan.

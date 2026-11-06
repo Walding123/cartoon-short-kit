@@ -1,0 +1,28 @@
+CAPTION UTAMA
+Dua lampu sama terangnya (±800 lumen), tapi yang satu makan listrik hampir 7× lipat. LED 9 W vs pijar 60 W, siapa menang? 💡
+
+Ronde 1, tagihan (nyala 6 jam/hari, tarif R-1 1.300 VA Rp1.444,70/kWh):
+LED: 9 W × 6 jam × 30 hari = 1,62 kWh ≈ Rp2.340 sebulan
+Pijar: 60 W × 6 jam × 30 hari = 10,8 kWh ≈ Rp15.603 sebulan
+
+Ronde 2, panas: ±90% energi lampu pijar jadi panas, ±54 W dari 60 W. LED 9 W membuang sekitar 6 W.
+Ronde 3, umur: pijar ±1.000 jam, LED ±15.000 jam (angka umum di kemasan).
+
+Jadi buat menerangi rumah, LED menang telak. Tapi kalau tugasnya menghangatkan, seperti penghangat anak ayam atau penetas telur sederhana, panas lampu pijar justru yang dicari.
+
+Di rumahmu masih ada lampu pijar? Dipakai buat apa? Tulis di komentar 👇
+
+#ledvspijar #lampu #hematlistrik #listrik #sainsseharihari #perbandingan
+
+VERSI PENDEK
+LED 9 W vs pijar 60 W, sama terang. Sebulan (6 jam/hari): ±Rp2.340 vs ±Rp15.603. Pijar buang ±54 W jadi panas, umurnya cuma ±1.000 jam. Buat terang pilih LED, buat hangat (penetas telur) pijar masih juara. 💡
+
+JUDUL SHORTS
+Lampu LED vs lampu pijar: beda tagihannya segini! #shorts
+
+SUMBER & CATATAN
+- Lampu pijar ±90% energinya jadi panas; LED tahan jauh lebih lama: https://www.energy.gov/sites/default/files/2021-08/ES-EE%20Lighting_080921.pdf ; https://www.energystar.gov/products/light_bulbs/learn-about-led-lighting
+- LED ±70% energi jadi panas, ±30–40% jadi cahaya (kisaran dari literatur, tergantung produk): https://image-ppubs.uspto.gov/dirsearch-public/print/downloadPdf/8534866 ; https://www.paclights.com/explore/do-led-bulbs-generate-heat-key-metrics-for-evaluating-in-lighting/
+- Umur LED 15.000–30.000 jam, pijar ±1.000 jam: https://www.canstarblue.com.au/home-garden/incandescent-light-bulbs/ ; https://bookstore.ksre.ksu.edu/pubs/4H1064.pdf
+- Tarif R-1/TR 1.300 VA Rp1.444,70/kWh: https://www.kompas.tv/info-publik/633030/tarif-listrik-pln-per-kwh-24-30-november-2025-lengkap-untuk-pelanggan-subsidi-dan-non-subsidi
+Catatan: semua angka dihitung di model video (daya × jam × hari × tarif; panas = daya × fraksi panas). Asumsi nyala 6 jam per hari. Kawat pijar menyala di ±2.400–2.700 °C (2.700–3.000 K). Ilustrasi disederhanakan, bukan merek tertentu; isi lampu LED (14 chip, driver) mewakili lampu LED 9 W pada umumnya. Cek tarif terbaru di PLN Mobile.

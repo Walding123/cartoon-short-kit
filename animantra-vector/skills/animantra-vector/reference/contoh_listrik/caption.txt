@@ -1,0 +1,26 @@
+CAPTION UTAMA
+Listrik di dinding 220 volt, cukup buat bikin kesetrum. Tapi HP-mu cuma butuh 5 volt. Kok bisa aman? ⚡
+
+Ikuti perjalanannya:
+1. Dari tiang PLN, listrik masuk ke meteran yang menghitung tiap kWh yang kamu pakai.
+2. MCB menjaga batas daya. Rumah 1.300 VA dijaga MCB 6 A (6 A × 220 V ≈ 1.320 VA). Kalau beban berlebih, keping bimetal memanas dan melengkung, lalu memutus listrik. Kalau korsleting, kumparan magnet memutus dalam hitungan milidetik.
+3. Lewat kabel di dalam tembok, listrik sampai ke stopkontak: bolak-balik 50 kali tiap detik.
+4. Di charger, listrik diluruskan, dicacah puluhan ribu kali per detik, lalu trafo mini menurunkannya jadi 5 V.
+
+Tips: MCB sering turun? Jangan diganjal. Kurangi alat yang nyala barengan.
+
+Mau dibongkar perjalanan apa lagi? Tulis di komentar 👇
+
+#kitabongkar #listrik #pln #mcb #charger #sainsseharihari #edukasi
+
+VERSI PENDEK
+Dari tiang PLN sampai HP-mu, listrik dijaga tiga penjaga: meteran yang menghitung, MCB yang memutus, charger yang menurunkan. ⚡
+
+JUDUL SHORTS
+Perjalanan listrik dari tiang PLN sampai HP-mu #shorts
+
+SUMBER & CATATAN
+- Batas daya & MCB (900 VA = 4 A, 1.300 VA = 6 A, 2.200 VA = 10 A): https://id.my-best.com/138966 ; Jurnal ELIT Polnep: https://ejurnal.polnep.ac.id/index.php/ELIT/article/download/215/168
+- Cara kerja MCB (bimetal untuk beban lebih, kumparan magnet untuk hubung singkat): https://automationforum.co/what-is-miniature-circuit-breakermcb-and-how-it-works/ ; https://viox.com/how-mcbs-prevent-damage-during-electrical-overloads-or-short-circuits/
+- Charger switch-mode (disearahkan, dicacah 20–100 kHz, trafo kecil): https://www.jameco.com/Jameco/Blog/what-is-switch-mode-power-supply.html ; https://hackatronic.com/?p=4592
+Catatan penyederhanaan: bentuk perangkat disederhanakan; arus beban dihitung dari daya contoh (W ÷ 220 V); arus korsleting digambarkan sebagai lonjakan, bukan angka pasti; waktu putus magnetik "milidetik" (sumber menyebut ±0,5–10 ms tergantung desain). Pembatasan daya sebenarnya bisa juga oleh meteran prabayar itu sendiri.

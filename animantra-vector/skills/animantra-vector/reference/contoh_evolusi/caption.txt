@@ -1,0 +1,29 @@
+=== CAPTION UTAMA ===
+Seratus tahun lalu, nelepon harus muter engkol dulu. Sekarang cukup sentuh kaca. ☎️➡️📱
+
+Yuk, kita bongkar evolusinya, satu mekanisme per zaman:
+1️⃣ 1900-an · Engkol memutar jangkar berkumparan di antara magnet tapal kuda. Arus bolak-balik yang keluar membunyikan bel di papan operator, lalu operator mencolokkan kabelmu dengan tangan.
+2️⃣ 1930-an · Piringan putar. Saat dilepas, piringan kembali sambil memutus sirkuit: angka 5 = 5 kali putus (aslinya ±10 pulsa per detik; di video diperlambat 3×).
+3️⃣ 1963 · Tombol nada. Tiap tombol mengirim dua nada sekaligus: satu nada baris + satu nada kolom. Tombol 5 = 770 Hz + 1336 Hz.
+4️⃣ 2000 · Ponsel batangan. Suaramu diubah jadi gelombang radio ke menara (BTS) terdekat.
+5️⃣ 2007 · Layar sentuh kapasitif. Di balik kaca ada kisi elektroda halus; jarimu menyerap sedikit muatan, dan dari baris + kolom yang berubah, ponsel tahu titik yang kamu sentuh.
+
+Dari engkol sampai kaca, cuma sekitar seratus tahun.
+Menurutmu, 10 tahun lagi telepon bakal kayak apa? Tulis tebakanmu di komentar 👇
+
+Sumber:
+• Telephone magneto (Wikipedia): en.wikipedia.org/wiki/Telephone_magneto
+• Pulse dialing (Wikipedia): en.wikipedia.org/wiki/Pulse_dialing (angka 1–9 = 1–9 pulsa, 0 = 10 pulsa, ±10 pulsa/detik)
+• DTMF signaling (Wikipedia): en.wikipedia.org/wiki/DTMF_signaling (Touch-Tone diperkenalkan ke publik 18 November 1963; nada 697/770/852/941 Hz dan 1209/1336/1477 Hz)
+• GSMArena, ponsel batangan 2000 (113 × 48 × 22 mm): gsmarena.com/nokia_3310-192.php
+• Ponsel layar sentuh kapasitif diumumkan 9 Januari 2007 (CTV News: ctvnews.ca/sci-tech/10-years-ago-steve-jobs-presented-apple-s-first-iphone-1.3232137)
+
+Catatan penyederhanaan: ilustrasi disederhanakan, bukan merek tertentu (logo sengaja tidak ditampilkan). Tahun di garis waktu adalah tahun penanda era, bukan tanggal pasti: telepon engkol dipakai sejak akhir 1800-an sampai pertengahan 1900-an, dan piringan putar sudah ada sebelum 1930. Isi magneto, kisi elektroda layar (aslinya pola berlian transparan), dan jaringan radio digambar lebih besar dan lebih sederhana dari aslinya. Gerak piringan diperlambat 3×.
+
+#KitaBongkar #EvolusiTelepon #SejarahTeknologi #CaraKerja #Telepon #Edukasi #FaktaUnik
+
+=== VERSI PENDEK (Threads/Shorts) ===
+Dari engkol ke layar sentuh dalam ±100 tahun: engkol bikin arus untuk bel operator, piringan memutus sirkuit 5 kali untuk angka 5, tombol mengirim dua nada sekaligus, ponsel memakai gelombang radio, dan layar sentuh membaca muatan dari jarimu. 10 tahun lagi telepon kayak apa? 👇
+
+=== JUDUL YOUTUBE SHORTS ===
+Evolusi Telepon: dari Engkol ke Layar Sentuh, Ini Cara Kerjanya #KitaBongkar

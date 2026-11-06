@@ -1,0 +1,24 @@
+CAPTION UTAMA
+Charger dicolok terus tanpa HP bikin token cepat habis? MITOS. 🔌
+
+Tanpa HP, IC di dalam charger memang tetap "berjaga" dan butuh listrik. Tapi charger modern dibatasi aturan ekodesain: maksimal 0,1 watt saat tanpa beban.
+0,1 W × 24 jam × 30 hari = 72 Wh = 0,072 kWh
+× Rp1.444,70 per kWh (R-1 1.300 VA) ≈ Rp104 sebulan.
+Lampu LED 9 W menghabiskan listrik sebanyak itu cuma dalam 8 jam.
+
+Tapi hati-hati: charger murahan atau yang sudah rusak bisa panas, dan itu yang berbahaya. Cabut charger kalau nggak dipakai, bukan demi hemat, tapi demi aman.
+
+Mitos listrik apa lagi yang mau diuji? Tulis di komentar 👇
+
+#mitosvsfakta #charger #listrik #pln #hemat #sainsseharihari
+
+VERSI PENDEK
+Charger dicolok terus = boros? Mitos! Cuma ±Rp104 sebulan. Tapi cabut tetap perlu, demi aman. 🔌
+
+JUDUL SHORTS
+Charger dicolok terus bikin boros? #shorts
+
+SUMBER & CATATAN
+- Batas daya tanpa beban charger (EU Ecodesign 2019/1782, ±0,1 W; charger lama ±0,3–0,5 W): https://selectra.co.uk/energy/news/leaving-charger-plugged-in-how-much-it-costs ; https://www.ferwer.com/blog/chargers-plugged-in-without-a-device-draw-unnecessary-energy ; https://www.belfuse.com/resource-library/tech-paper/efficiency-standards-for-external-power-supplies
+- Tarif R-1/TR 1.300 VA Rp1.444,70/kWh (2025): https://www.kompas.tv/info-publik/633030/tarif-listrik-pln-per-kwh-24-30-november-2025-lengkap-untuk-pelanggan-subsidi-dan-non-subsidi
+Catatan: perhitungan memakai batas 0,1 W (charger modern). Charger lama/rata-rata bisa 0,26–0,5 W, artinya ±Rp270–520 sebulan, tetap kecil. Cek tarif terbaru di PLN Mobile.

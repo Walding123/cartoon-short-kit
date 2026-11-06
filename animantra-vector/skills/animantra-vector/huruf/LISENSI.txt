@@ -1,0 +1,3 @@
+Huruf di folder ini dari Google Fonts, berlisensi SIL Open Font License 1.1 (bebas dipakai, termasuk untuk video komersial):
+Nunito, Plus Jakarta Sans, Fraunces, Space Grotesk, Archivo, JetBrains Mono, DM Mono.
+Hanya subset huruf Latin. Teks lisensi: https://openfontlicense.org

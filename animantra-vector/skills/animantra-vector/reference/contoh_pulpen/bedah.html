@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<title>Pulpen Klik</title>
+<style>
+  /* tata letak "video bedah" (seperti resleting/kunci), palet mewah: gading, arang, emas sampanye, burgundi, zamrud */
+  :root { --paper: #f4efe6; --ink: #1b1a1f; --muted: #7a7368; --red: #9b2c3f; --green: #1f7a5c; --gold: #e3bf62;
+    --goldD: #b8913a; --yellow: #e3bf62; --copper: #c06a2e; --tag: #1f1d1b; --stampred: #7a1c2c; --sapphire: #3e5bb8;
+    --sans: -apple-system, "SF Pro Display", "Helvetica Neue", sans-serif;
+    --mono: ui-monospace, "SF Mono", Menlo, monospace; }
+  html, body { margin: 0; background: var(--paper); overflow: hidden; }
+  #stage { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: var(--paper);
+    font-family: var(--sans); color: var(--ink); }
+  #shake { position: absolute; inset: 0; }
+  canvas#gl { display: block; position: absolute; inset: 0; }
+  .ov { position: absolute; pointer-events: none; }
+
+  #hud { left: 0; right: 0; top: 0; height: 430px; padding: 120px 72px 0;
+    background: linear-gradient(var(--paper) 78%, rgba(244,239,230,0)); }
+  #title { font-weight: 800; font-size: 74px; line-height: 1.1; letter-spacing: -.02em; max-width: 920px; }
+  #title em { font-style: normal; color: var(--red); }
+  #rule { position: absolute; left: 72px; top: 96px; width: 120px; height: 6px; border-radius: 3px; background: var(--gold); }
+  #readout { position: absolute; left: 72px; right: 72px; top: 330px; display: flex; align-items: center; gap: 18px;
+    font-family: var(--mono); font-variant-numeric: tabular-nums; }
+  #readout .n { font-size: 58px; font-weight: 650; letter-spacing: -.03em; }
+  #readout .u { font-size: 30px; font-weight: 500; color: var(--muted); letter-spacing: .02em; }
+  #chip { margin-left: auto; font: 700 27px var(--mono); letter-spacing: .1em; color: #fff; text-transform: uppercase;
+    border-radius: 999px; padding: 15px 26px 13px; }
+
+  #tags { inset: 0; }
+  .tag { position: absolute; display: flex; align-items: center; gap: 12px; background: var(--tag); color: #f4efe6;
+    font: 800 31px var(--sans); letter-spacing: .04em; text-transform: uppercase; padding: 15px 22px 13px;
+    border-radius: 999px; box-shadow: 0 10px 30px rgba(0,0,0,.2); white-space: nowrap; transform-origin: var(--ox) 50%; }
+  .tag.hi { background: var(--gold); color: var(--ink); box-shadow: 0 0 0 4px var(--ink), 0 10px 30px rgba(0,0,0,.2); }
+  .tag.warn { background: var(--copper); color: #fff8ee; box-shadow: 0 0 0 4px var(--ink), 0 10px 30px rgba(0,0,0,.2); }
+  .tag.ok { background: var(--green); color: #fff8ee; box-shadow: 0 0 0 4px var(--ink), 0 10px 30px rgba(0,0,0,.2); }
+  .tag svg { width: 34px; height: 26px; flex: none; }
+
+  #stamp { left: 0; right: 0; top: 760px; text-align: center; }
+  #stamp span { position: relative; display: inline-block; font: 900 128px var(--sans); letter-spacing: -.01em;
+    text-transform: uppercase; color: #fff8ee; transform-origin: 50% 50%; }
+  #stamp span::before { content: attr(data-t); position: absolute; inset: 0; z-index: -1; color: var(--stampred);
+    -webkit-text-stroke: 30px var(--stampred); text-shadow: 0 13px 0 var(--stampred); }
+  #stamp span.snd { color: var(--gold); }
+  #stamp span.snd::before { color: var(--ink); -webkit-text-stroke: 30px var(--ink); text-shadow: 0 13px 0 var(--ink); }
+
+  #cap { left: 60px; right: 60px; top: 1440px; text-align: center; font: 800 58px/1.5 var(--sans); letter-spacing: -.01em; }
+  #cap .pill { background: rgba(27,26,31,.93); color: #8f8a82; border-radius: 26px; padding: 8px 26px 11px;
+    box-decoration-break: clone; -webkit-box-decoration-break: clone; box-shadow: 0 16px 48px rgba(0,0,0,.15); }
+  #cap .pill.in { display: inline; }
+  #cap b { font-weight: 800; }
+  #cap b.past { color: #fff8ee; }
+  #cap b.cur { color: var(--ink); background: var(--gold); border-radius: 12px; padding: 0 8px; margin: 0 -8px;
+    box-shadow: 0 0 0 5px var(--gold); }
+
+  #inset { left: 70px; right: 70px; top: 500px; height: 470px; background: #fffdf8; border: 3px solid var(--ink);
+    border-radius: 40px; box-shadow: 0 30px 80px rgba(27,26,31,.14); opacity: 0; overflow: hidden; }
+  #inset .k { position: absolute; left: 44px; top: 36px; font: 700 26px var(--mono); letter-spacing: .12em; color: var(--muted); }
+  #inset svg { position: absolute; inset: 0; }
+  #cards { left: 90px; right: 90px; top: 560px; display: flex; flex-direction: column; gap: 24px; }
+  .card { display: flex; align-items: center; gap: 24px; background: #fffdf8; border: 3px solid var(--ink); border-radius: 28px;
+    padding: 24px 30px 22px; box-shadow: 0 18px 50px rgba(27,26,31,.14); font: 800 56px/1 var(--sans); letter-spacing: -.01em; }
+  .card i { font: 700 30px var(--mono); font-style: normal; background: var(--gold); color: var(--ink); border-radius: 999px; padding: 10px 16px 8px; }
+  #dim { inset: 0; }
+</style>
+<script type="importmap">
+{ "imports": { "three": "./node_modules/three/build/three.module.js" } }
+</script>
+</head>
+<body>
+<div id="stage">
+  <div id="shake">
+    <canvas id="gl" width="1080" height="1920"></canvas>
+    <svg class="ov" id="dim" width="1080" height="1920"></svg>
+    <div class="ov" id="tags"></div>
+    <div class="ov" id="inset"><div class="k" id="insetk"></div><svg id="insetsvg" viewBox="0 0 940 470"></svg></div>
+    <div class="ov" id="cards"></div>
+    <div class="ov" id="stamp"></div>
+  </div>
+  <div class="ov" id="hud"><div id="rule"></div><div id="title"></div>
+    <div id="readout"><span class="n" id="rn">0°</span><span class="u" id="ru">putaran cincin</span><span id="chip"></span></div>
+  </div>
+  <div class="ov" id="cap"></div>
+</div>
+<script type="module" src="./scene.js"></script>
+</body>
+</html>

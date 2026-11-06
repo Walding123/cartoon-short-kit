@@ -1,0 +1,6 @@
+{
+  "name": "kita-bongkar-engine",
+  "private": true,
+  "description": "Mesin render video Kita Bongkar: three.js (scene) + playwright-core (rekam frame lewat Chrome).",
+  "dependencies": { "playwright-core": "^1.64.1", "three": "^0.186.1" }
+}

@@ -1,0 +1,11 @@
+Rice cooker, dispenser, setrika, ketel listrik. Semua dicolok ke satu terminal.
+Apa jadinya kalau keempatnya nyala barengan? Yuk, kita bongkar.
+Terminal ini cuma kuat sepuluh ampere. Kira-kira dua ribu dua ratus watt.
+Satu rice cooker? Aman. Nggak sampai dua ampere, kuningannya adem.
+Tapi kalau empat nyala bareng, totalnya dua ribu enam ratus watt. Hampir dua belas ampere!
+Arusnya naik enam setengah kali, panasnya empat puluh dua kali lipat!
+Plastiknya melunak dan menguning. Per penjepitnya kendur, muncul percikan kecil.
+Bau gosong. Lalu plastiknya meleleh, dan api menyala.
+Kalau beruntung, MCB rumah turun duluan. Gelap, tapi selamat.
+Makanya, cek angka di terminalmu. Satu alat pemanas, satu stop kontak.
+Jadi, sebelum colok yang keempat, hitung dulu wattnya.

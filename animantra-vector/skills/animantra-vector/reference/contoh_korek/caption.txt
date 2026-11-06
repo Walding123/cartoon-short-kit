@@ -1,0 +1,23 @@
+CAPTION UTAMA
+Jempolmu barusan bikin listrik ribuan volt. Tanpa baterai. ⚡
+
+Di dalam korek gas ada kotak putih kecil: pemantik piezo. Tombol yang kamu tekan mengangkat katup gas lewat tuas, sekaligus menekan pegas di dalam kotak itu. Di ujung tekanan, palu kecil lepas dan memukul kristal. Kristal yang dipukul memisahkan muatan + dan −, jadi listrik ribuan volt, lebih dari 10 kali tegangan stopkontak rumah. Listriknya loncat di celah mulut korek, dan percikannya menyalakan gas.
+
+Makanya ditekan pelan atau cepat hasilnya sama: yang memukul itu pegasnya, bukan jarimu. Dan kristal yang sama ada di pemantik kompor gas di dapurmu: tik-tik-tik!
+
+Benda apa lagi yang mau kita bongkar? Tulis di komentar 👇
+
+#kitabongkar #korekgas #piezo #fisika #sainsseharihari #edukasi
+
+VERSI PENDEK
+Korek gas nyala tanpa baterai. Rahasianya palu kecil yang memukul kristal: ribuan volt dalam sekali cetek! ⚡🔥
+
+JUDUL SHORTS
+Kok korek gas nyala tanpa baterai? #shorts
+
+SUMBER & CATATAN
+- Gas lighter, Wikipedia: https://en.wikipedia.org/wiki/Gas_lighter
+- US3793561A, Piezoelectric gas lighter (Google Patents): https://patents.google.com/patent/US3793561A
+- US3167687A, Piezoelectric lighter (Google Patents): https://patents.google.com/patent/US3167687
+- Patent CA2147652C, Selectively actuatable lighter (tombol menggerakkan unit piezo dan tuas katup bersamaan): https://patents.google.com/patent/CA2147652C/en
+Catatan penyederhanaan: bentuk bagian disederhanakan (unit piezo, tuas, dan katup digambar sebagai potongan datar). Langkah tombol 5 mm dan angkat katup 1,5 mm adalah angka contoh. Tegangan piezo ditulis "ribuan volt" karena angka pastinya beda-beda tiap merek (pengukuran forum ±10 kV, spesifikasi pemantik BBQ ±18 kV); "lebih dari 10× stopkontak" = di atas 2.200 V, aman untuk rentang itu. Urutan gas keluar dulu baru percikan mengikuti paten.

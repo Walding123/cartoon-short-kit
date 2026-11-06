@@ -1,0 +1,401 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Animantra Studio</title>
+<style>
+  :root { --bg: #f4f1ea; --card: #fffdf8; --ink: #1b1a1f; --muted: #6f6a60; --line: #e2dccf; --gold: #e3bf62; --goldD: #8a6a1c;
+    --red: #b83a3a; --green: #1f7a5c; --blue: #3e5bb8; --r: 14px; --sans: -apple-system, "SF Pro Text", "Segoe UI", Roboto, sans-serif; }
+  @media (prefers-color-scheme: dark) { :root { --bg: #17161a; --card: #211f25; --ink: #f1ede4; --muted: #a49d90; --line: #35323a; --goldD: #e3bf62; --red: #ef7b7b; --green: #5fc39b; --blue: #8ea6ff; } }
+  * { box-sizing: border-box; }
+  [hidden] { display: none !important; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.5 var(--sans); }
+  header { display: flex; align-items: center; gap: 14px; padding: 18px 24px; border-bottom: 1px solid var(--line); flex-wrap: wrap; }
+  header h1 { margin: 0; font-size: 20px; font-weight: 700; letter-spacing: -.01em; }
+  header .mark { background: var(--gold); color: #1b1a1f; padding: 0 8px; border-radius: 6px; }
+  header .folder { color: var(--muted); font-size: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 46ch; }
+  .pill { margin-left: auto; display: inline-flex; align-items: center; gap: 8px; font-size: 13px; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--line); background: var(--card); }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--muted); }
+  .dot.ok { background: var(--green); } .dot.no { background: var(--red); }
+  main { display: grid; grid-template-columns: minmax(0, 380px) minmax(0, 1fr); gap: 24px; padding: 24px; max-width: 1400px; margin: 0 auto; }
+  @media (max-width: 900px) { main { grid-template-columns: minmax(0, 1fr); padding: 16px; } }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: var(--r); padding: 18px; }
+  h2 { font-size: 15px; margin: 0 0 12px; font-weight: 700; }
+  label { display: block; font-size: 13px; color: var(--muted); margin: 14px 0 6px; }
+  textarea, input[type=text], select { width: 100%; font: inherit; color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; }
+  textarea:focus, input:focus, select:focus, button:focus-visible { outline: 2px solid var(--gold); outline-offset: 1px; }
+  .formats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; }
+  .fmt { text-align: left; border: 1px solid var(--line); background: var(--bg); color: var(--ink); border-radius: 10px; padding: 8px 10px; cursor: pointer; font: inherit; font-size: 13px; }
+  .fmt b { display: block; font-size: 13.5px; } .fmt span { color: var(--muted); font-size: 12px; }
+  .fmt[aria-pressed=true] { border-color: var(--goldD); background: color-mix(in srgb, var(--gold) 22%, var(--bg)); }
+  .row { display: flex; gap: 10px; } .row > * { flex: 1; }
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; border: 1px solid var(--line); background: var(--card); color: var(--ink); border-radius: 10px; padding: 9px 14px; font: inherit; font-size: 14px; cursor: pointer; min-height: 40px; }
+  .btn:hover { border-color: var(--muted); }
+  .btn.primary { background: var(--ink); color: var(--bg); border-color: var(--ink); width: 100%; margin-top: 16px; font-weight: 600; }
+  .btn.small { min-height: 32px; padding: 5px 10px; font-size: 13px; }
+  .err { color: var(--red); font-size: 13px; min-height: 18px; margin-top: 6px; }
+  .note { color: var(--muted); font-size: 12.5px; }
+  .jobs { display: grid; gap: 12px; margin-bottom: 24px; }
+  .job .top { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+  .job .t { font-weight: 600; } .job .s { font-size: 12px; color: var(--muted); }
+  .steps { display: flex; gap: 4px; margin: 12px 0 8px; }
+  .steps i { flex: 1; height: 6px; border-radius: 3px; background: var(--line); }
+  .steps i.done { background: var(--green); } .steps i.on { background: var(--gold); }
+  .stepname { font-size: 13px; }
+  .bar { height: 6px; border-radius: 3px; background: var(--line); overflow: hidden; margin-top: 6px; } .bar b { display: block; height: 100%; background: var(--blue); }
+  .lines { margin: 10px 0 0; padding: 0; list-style: none; font-size: 12.5px; color: var(--muted); max-height: 110px; overflow: auto; }
+  .lines li { padding: 2px 0; border-top: 1px dashed var(--line); }
+  .head2 { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+  .head2 h2 { margin: 0; } .head2 input { max-width: 260px; margin-left: auto; padding: 7px 12px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 14px; }
+  .vid { background: var(--card); border: 1px solid var(--line); border-radius: var(--r); overflow: hidden; cursor: pointer; text-align: left; padding: 0; color: inherit; font: inherit; }
+  .vid:hover { border-color: var(--muted); }
+  .vid .thumb { aspect-ratio: 9 / 16; background: var(--line) center / cover no-repeat; position: relative; }
+  .badge { position: absolute; left: 8px; top: 8px; font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 999px; background: var(--card); color: var(--ink); }
+  .badge.jalan { background: var(--gold); color: #1b1a1f; } .badge.gagal { background: var(--red); color: #fff; }
+  .vid .meta { padding: 8px 10px 10px; } .vid .meta b { display: block; font-size: 13px; line-height: 1.3; max-height: 2.6em; overflow: hidden; }
+  .vid .meta span { font-size: 11.5px; color: var(--muted); }
+  .empty { color: var(--muted); padding: 30px 0; text-align: center; }
+  dialog { border: 1px solid var(--line); border-radius: 18px; background: var(--card); color: var(--ink); padding: 0; width: min(980px, 94vw); max-height: 92vh; }
+  dialog::backdrop { background: rgba(0,0,0,.45); }
+  .det { display: grid; grid-template-columns: minmax(0, 340px) minmax(0, 1fr); gap: 20px; padding: 20px; overflow: auto; max-height: 92vh; }
+  @media (max-width: 760px) { .det { grid-template-columns: minmax(0, 1fr); } }
+  .det video { width: 100%; aspect-ratio: 9 / 16; background: #000; border-radius: 12px; }
+  .det h3 { margin: 0 0 4px; font-size: 18px; } .det .kick { font-size: 12px; color: var(--muted); letter-spacing: .08em; text-transform: uppercase; }
+  pre.cap { white-space: pre-wrap; font: 13px/1.55 var(--sans); background: var(--bg); border: 1px solid var(--line); border-radius: 10px; padding: 12px; max-height: 220px; overflow: auto; }
+  .acts { display: flex; gap: 8px; flex-wrap: wrap; margin: 12px 0; }
+  .det img.sheet { width: 100%; border-radius: 10px; border: 1px solid var(--line); }
+  .x { position: sticky; top: 0; float: right; }
+  nav.tabs { display: inline-flex; gap: 4px; background: var(--card); border: 1px solid var(--line); border-radius: 999px; padding: 3px; }
+  nav.tabs button { font: inherit; font-size: 14px; border: 0; background: none; color: var(--muted); padding: 6px 14px; border-radius: 999px; cursor: pointer; min-height: 32px; }
+  nav.tabs button[aria-selected=true] { background: var(--ink); color: var(--bg); font-weight: 600; }
+  #vGaya { display: grid; grid-template-columns: minmax(0, 420px) minmax(0, 1fr); gap: 24px; padding: 24px; max-width: 1400px; margin: 0 auto; }
+  @media (max-width: 900px) { #vGaya { grid-template-columns: minmax(0, 1fr); padding: 16px; } }
+  #vGaya h3 { font-size: 13px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin: 22px 0 8px; }
+  #vGaya h3:first-of-type { margin-top: 4px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chip { display: inline-flex; align-items: center; gap: 8px; border: 1px solid var(--line); background: var(--bg); color: var(--ink); border-radius: 999px; padding: 5px 12px 5px 6px; font: inherit; font-size: 13px; cursor: pointer; min-height: 34px; }
+  .chip[aria-pressed=true] { border-color: var(--ink); box-shadow: 0 0 0 1px var(--ink); }
+  .chip .on { font-size: 11px; font-weight: 700; color: var(--green); }
+  .sw { display: inline-flex; border-radius: 999px; overflow: hidden; border: 1px solid rgba(0,0,0,.15); flex: none; }
+  .sw i { width: 11px; height: 22px; }
+  .presets { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; }
+  .preset { border: 1px solid var(--line); background: var(--bg); color: var(--ink); border-radius: 10px; padding: 6px; cursor: pointer; font: inherit; font-size: 12px; text-align: left; }
+  .preset .sw { display: flex; border-radius: 6px; margin-bottom: 5px; } .preset .sw i { flex: 1; height: 26px; width: auto; }
+  .preset[aria-pressed=true] { border-color: var(--ink); box-shadow: 0 0 0 1px var(--ink); }
+  .colors { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+  .col { display: flex; align-items: center; gap: 8px; font-size: 13px; border: 1px solid var(--line); border-radius: 10px; padding: 4px 8px 4px 4px; background: var(--bg); }
+  .col input { width: 34px; height: 30px; border: 0; padding: 0; background: none; cursor: pointer; flex: none; }
+  .fonts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; }
+  .font { border: 1px solid var(--line); background: var(--bg); color: var(--ink); border-radius: 10px; padding: 8px 10px; cursor: pointer; text-align: left; font-size: 12px; }
+  .font b { display: block; font-size: 22px; line-height: 1.15; font-weight: 800; margin-bottom: 2px; }
+  .font span { color: var(--muted); }
+  .font[aria-pressed=true] { border-color: var(--ink); box-shadow: 0 0 0 1px var(--ink); }
+  .seg { display: flex; flex-wrap: wrap; gap: 4px; }
+  .seg button { flex: 1 1 auto; border: 1px solid var(--line); background: var(--bg); color: var(--ink); border-radius: 8px; padding: 6px 10px; font: inherit; font-size: 13px; cursor: pointer; min-height: 34px; }
+  .seg button[aria-pressed=true] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+  .segl { font-size: 13px; color: var(--muted); margin: 10px 0 5px; }
+  .switch { display: flex; align-items: center; gap: 8px; font-size: 13px; margin-top: 8px; }
+  .prev { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+  .prev figure { margin: 0; } .prev figcaption { font-size: 12px; color: var(--muted); margin-top: 6px; text-align: center; }
+  .prev iframe { width: 100%; aspect-ratio: 9 / 16; border: 0; border-radius: 16px; background: var(--line); display: block; }
+  .kontras { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px 16px; font-size: 13px; }
+  .kontras li { display: flex; gap: 8px; } .kontras b { margin-left: auto; font-variant-numeric: tabular-nums; }
+  .kontras .ok { color: var(--green); } .kontras .no { color: var(--red); }
+  .uji { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin-top: 10px; }
+  .uji img { width: 100%; border-radius: 10px; border: 1px solid var(--line); }
+  .gacts { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; position: sticky; bottom: 0; background: var(--card); padding: 12px 0 2px; border-top: 1px solid var(--line); }
+  .gacts .btn.primary { width: auto; margin: 0; flex: 1; }
+  .logo-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .logo-row img { height: 40px; max-width: 140px; object-fit: contain; background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 4px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Animantra <span class="mark">Studio</span></h1>
+  <nav class="tabs" role="tablist"><button role="tab" aria-selected="true" data-tab="vVideo">Video</button><button role="tab" aria-selected="false" data-tab="vGaya">Gaya Saya</button></nav>
+  <span class="folder" id="folder"></span>
+  <span class="pill" id="claude"><span class="dot"></span><span>Memeriksa Claude…</span></span>
+</header>
+<main id="vVideo">
+  <section>
+    <div class="card">
+      <h2>Video baru</h2>
+      <label>Format</label>
+      <div class="formats" id="formats"></div>
+      <label for="topik">Topik</label>
+      <textarea id="topik" rows="3" placeholder="kenapa setrika bisa mati sendiri saat sudah panas"></textarea>
+      <label for="durasi">Durasi: <b id="durOut">50</b> detik</label>
+      <input type="range" id="durasi" min="20" max="80" step="5" value="50" style="width:100%">
+      <div class="row">
+        <div><label for="suara">Suara</label><select id="suara"><option>Otomatis</option><option>ElevenLabs</option><option>VokaStudio</option><option>VoiceStudio</option><option>Suara sistem</option></select></div>
+        <div><label for="musik">Musik</label><select id="musik"><option>Pilihkan</option><option>Misteri</option><option>Ceria</option><option>Sinematik</option><option>Lofi</option><option>Elektronik</option></select></div>
+      </div>
+      <label for="gayaPilih">Gaya tampilan</label><select id="gayaPilih"></select>
+      <button class="btn primary" id="buat">Buat video</button>
+      <div class="err" id="err"></div>
+      <p class="note" id="catatan">Claude mengerjakan riset, naskah, suara, model 3D, dan cek gambar; Studio merender videonya. Satu video sekitar 30–60 menit. Video dikerjakan satu per satu.</p>
+      <p class="note" id="hint" hidden style="color:var(--red)">Supaya dikerjakan, buka aplikasi Claude di folder video ini lalu ketik: <b>buka studio</b>. Permintaan yang sudah dikirim tetap menunggu.</p>
+    </div>
+  </section>
+  <section>
+    <div id="jobsWrap" hidden><h2>Sedang dikerjakan</h2><div class="jobs" id="jobs"></div></div>
+    <div class="head2"><h2>Riwayat video</h2><input type="text" id="cari" placeholder="Cari judul atau topik"></div>
+    <div class="grid" id="grid"></div>
+  </section>
+</main>
+<div id="vGaya" hidden>
+  <section class="card" id="gEdit">
+    <h3>Gaya tersimpan</h3>
+    <div class="chips" id="gList"></div>
+    <label for="gNama">Nama gaya</label><input type="text" id="gNama" maxlength="40" placeholder="Gaya channel saya">
+    <h3>Warna</h3>
+    <div class="segl">Mulai dari contoh</div>
+    <div class="presets" id="gPreset"></div>
+    <div class="segl">Atau dari satu warna merek</div>
+    <div class="row" style="align-items:center">
+      <div class="col"><input type="color" id="gMerek" aria-label="Warna merek"><span id="gMerekT">Warna merek</span></div>
+      <div class="col"><input type="color" id="gSorot" aria-label="Warna sorot"><span>Warna sorot</span></div>
+    </div>
+    <label class="switch"><input type="checkbox" id="gGelap"> Latar gelap</label>
+    <details style="margin-top:10px"><summary class="note" style="cursor:pointer">Atur warna satu per satu</summary>
+      <div class="colors" id="gWarna" style="margin-top:8px"></div>
+      <button class="btn small" id="gWarnaReset" style="margin-top:8px">Kembalikan warna hitungan</button>
+    </details>
+    <h3>Huruf</h3>
+    <div class="fonts" id="gHuruf"></div>
+    <h3>Bentuk</h3>
+    <div id="gBentuk"></div>
+    <h3>Warna benda 3D</h3>
+    <div class="seg" id="gKarakter" data-k="karakter"></div>
+    <p class="note">Setiap bagian benda tetap punya satu warna tegas. Pilihan ini hanya menggeser nuansanya.</p>
+    <h3>Identitas</h3>
+    <label for="gSeri">Nama seri (label di cover)</label><input type="text" id="gSeri" maxlength="28" placeholder="KITA BONGKAR">
+    <label for="gPenutup">Kalimat penutup khas (dipakai di akhir naskah & caption)</label><input type="text" id="gPenutup" maxlength="90" placeholder="Sampai jumpa di bongkaran berikutnya!">
+    <label>Logo (PNG, tampil di cover)</label>
+    <div class="logo-row"><img id="gLogoImg" hidden alt="Logo"><input type="file" id="gLogo" accept="image/png"><button class="btn small" id="gLogoHapus" hidden>Hapus logo</button></div>
+    <label for="gMusik">Musik bawaan</label><select id="gMusik"></select>
+    <div class="err" id="gErr"></div>
+    <div class="gacts">
+      <button class="btn primary" id="gSimpanAktif">Simpan & pakai</button>
+      <button class="btn" id="gSimpan">Simpan</button>
+      <button class="btn" id="gHapus">Hapus</button>
+    </div>
+  </section>
+  <section>
+    <div class="card">
+      <div class="head2"><h2>Pratinjau</h2><span class="note" id="gStatus"></span></div>
+      <div class="prev">
+        <figure><iframe id="pCover" title="Pratinjau cover"></iframe><figcaption>Pembuka (cover)</figcaption></figure>
+        <figure><iframe id="pIsi" title="Pratinjau isi video"></iframe><figcaption>Isi video</figcaption></figure>
+      </div>
+      <h3 style="margin-top:18px">Cek keterbacaan</h3>
+      <ul class="kontras" id="gKontras"></ul>
+    </div>
+    <div class="card" style="margin-top:16px">
+      <div class="head2"><h2>Coba di video sungguhan</h2><button class="btn small" id="gUji" style="margin-left:auto">Buat gambar uji</button></div>
+      <p class="note" id="gUjiNote">Membuat cover dan dua adegan video contoh "pulpen klik" dengan gaya ini, dirender mesin video yang sama. Sekitar 20–40 detik.</p>
+      <div class="uji" id="gUjiImg"></div>
+    </div>
+  </section>
+</div>
+<dialog id="dlg"></dialog>
+<script>
+const FORMATS = [['Kita Bongkar', 'Cara kerja satu benda'], ['Tur Lingkungan', 'Beberapa benda, satu tempat'], ['Story', 'Kisah penemuan'], ['POV', 'Perjalanan dari sudut benda'],
+  ['Tutorial', 'Langkah aman dan benar'], ['Mitos vs Fakta', 'Uji klaim populer'], ['A vs B', 'Adu dua pilihan'], ['Top List', 'Hitung mundur 3–5 hal'],
+  ['Apa Jadinya Kalau', 'Akibat salah pakai'], ['Evolusi', 'Dari masa ke masa'], ['Kuis', 'Tebak, hitung mundur, jawab']];
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const api = (p, b) => fetch(p, b ? { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(b) } : undefined).then(r => r.json());
+let fmt = '', TAHAP = [], VIDS = [], JOBS = [];
+
+$('formats').innerHTML = FORMATS.map(([n, d]) => `<button type="button" class="fmt" aria-pressed="false" data-v="${n}"><b>${n}</b><span>${d}</span></button>`).join('');
+$('formats').onclick = e => { const b = e.target.closest('.fmt'); if (!b) return; fmt = b.dataset.v; [...$('formats').children].forEach(x => x.setAttribute('aria-pressed', x === b)); $('err').textContent = ''; };
+$('durasi').oninput = e => ($('durOut').textContent = e.target.value);
+$('topik').oninput = () => ($('err').textContent = '');
+$('buat').onclick = async () => {
+  if (!fmt) return ($('err').textContent = 'Pilih format dulu.');
+  if (!$('topik').value.trim()) return ($('err').textContent = 'Tulis topiknya dulu.');
+  const r = await api('/api/jobs/new', { format: fmt, topik: $('topik').value.trim(), durasi: +$('durasi').value, suara: $('suara').value, musik: $('musik').value, gaya: $('gayaPilih').value });
+  if (r.error) return ($('err').textContent = r.error);
+  $('topik').value = ''; refresh();
+};
+$('cari').oninput = drawGrid;
+
+let MODE = 'chat', DENGAR = 0;
+async function cekClaude() {
+  const s = await api('/api/status'); TAHAP = s.tahap; MODE = s.mode; DENGAR = s.pendengar; $('folder').textContent = s.folder;
+  const c = $('claude');
+  if (MODE === 'chat') {
+    c.innerHTML = DENGAR ? '<span class="dot ok"></span><span>Chat Claude terhubung</span>' : '<span class="dot no"></span><span>Chat Claude belum terhubung</span>';
+    $('hint').hidden = !!DENGAR; $('catatan').textContent = 'Permintaan dikirim ke Claude di chat. Claude mengerjakannya di sana dan progresnya tampil di sini. Satu video sekitar 30–60 menit.';
+    return;
+  }
+  if (!s.claude.ada) c.innerHTML = '<span class="dot no"></span><span>Claude Code belum terpasang. Minta di chat: "pasang Claude Code untuk Studio".</span>';
+  else if (!s.claude.login) { c.innerHTML = '<span class="dot no"></span><span>Akun Claude belum terhubung</span><button class="btn small" id="login">Hubungkan</button>';
+    $('login').onclick = async () => { await api('/api/login', {}); c.lastChild.textContent = 'Lanjutkan di browser…'; setTimeout(cekClaude, 8000); }; }
+  else c.innerHTML = '<span class="dot ok"></span><span>Claude terhubung</span>';
+}
+
+function drawJobs() {
+  const aktif = JOBS.filter(j => ['antre', 'menunggu-chat', 'jalan', 'gagal'].includes(j.status)).slice(0, 4);
+  $('jobsWrap').hidden = !aktif.length;
+  $('jobs').innerHTML = aktif.map(j => {
+    const i = TAHAP.indexOf(j.tahap);
+    return `<div class="card job"><div class="top"><span class="t">${esc(j.topik)}</span><span class="s">${esc(j.format || '')} · ${j.status === 'antre' ? 'menunggu giliran' : j.status === 'menunggu-chat' ? (DENGAR ? 'dikirim ke chat Claude' : 'menunggu chat Claude dibuka') : j.status === 'gagal' ? 'gagal' : 'dikerjakan'}</span></div>
+      <div class="steps">${TAHAP.map((t, k) => `<i class="${k < i ? 'done' : k === i ? 'on' : ''}" title="${t}"></i>`).join('')}</div>
+      <div class="stepname">${j.status === 'gagal' ? `<span style="color:var(--red)">${esc(j.error || 'Gagal')}</span>` : `Tahap: <b>${esc(j.tahap)}</b>${j.tahap === 'Render' && j.persen != null ? ` · ${j.persen}%` : ''}`}</div>
+      ${j.tahap === 'Render' ? `<div class="bar"><b style="width:${j.persen || 0}%"></b></div>` : ''}
+      <ul class="lines">${(j.langkah || []).slice(-5).reverse().map(l => `<li>${esc(l.text)}</li>`).join('')}</ul>
+      <div class="acts"><a class="btn small" href="/log/${j.id}" target="_blank">Log</a>${j.status !== 'gagal' ? `<button class="btn small" data-batal="${j.id}">Batalkan</button>` : ''}</div></div>`;
+  }).join('');
+}
+$('jobs').onclick = async e => { const id = e.target.dataset.batal; if (id && confirm('Batalkan pekerjaan ini?')) { await api('/api/batal', { id }); refresh(); } };
+
+function drawGrid() {
+  const q = $('cari').value.toLowerCase(), list = VIDS.filter(v => !q || (v.title + ' ' + v.name + ' ' + v.kicker).toLowerCase().includes(q));
+  $('grid').innerHTML = list.length ? list.map(v => {
+    const st = v.job && v.job.status !== 'selesai' && v.job.status !== 'dibatalkan' ? v.job.status : (!v.mp4 ? 'draf' : '');
+    return `<button class="vid" data-n="${esc(v.name)}"><div class="thumb" style="background-image:${v.cover ? `url('/file/${encodeURIComponent(v.name)}/cover.png?${Math.round(v.waktu)}')` : 'none'}">${st ? `<span class="badge ${st}">${st === 'jalan' ? 'dikerjakan' : st}</span>` : ''}</div>
+      <div class="meta"><b>${esc(v.title)}</b><span>${esc(v.kicker || v.name)}${v.durasi ? ` · ${v.durasi} dtk` : ''} · ${new Date(v.waktu).toLocaleDateString('id-ID', { day: 'numeric', month: 'short' })}</span></div></button>`;
+  }).join('') : '<p class="empty">Belum ada video. Buat yang pertama dari kolom kiri.</p>';
+}
+$('grid').onclick = e => { const b = e.target.closest('.vid'); if (b) buka(b.dataset.n); };
+
+async function buka(n) {
+  const v = VIDS.find(x => x.name === n), base = `/file/${encodeURIComponent(n)}/`;
+  const cap = v.caption ? await fetch(base + 'caption.txt').then(r => r.text()) : '';
+  const d = $('dlg');
+  d.innerHTML = `<div class="det"><div>${v.mp4 ? `<video controls playsinline src="${base}${encodeURIComponent(v.mp4)}" poster="${v.cover ? base + 'cover.png' : ''}"></video>` : '<p class="empty">Video belum dirender.</p>'}</div>
+    <div><button class="btn small x" id="tutup">Tutup</button><div class="kick">${esc(v.kicker)}</div><h3>${esc(v.title)}</h3><div class="note">${esc(v.name)}${v.durasi ? ` · ${v.durasi} detik` : ''}</div>
+      <div class="acts"><button class="btn small" data-a="finder">Tampilkan di Finder</button>${v.mp4 ? `<a class="btn small" href="${base}${encodeURIComponent(v.mp4)}" download>Unduh video</a>` : ''}<button class="btn small" data-a="render">Render ulang</button></div>
+      <label for="rev">Revisi</label><textarea id="rev" rows="2" placeholder="musiknya kurang nendang, kamera terlalu dekat di bagian AC"></textarea>
+      <button class="btn small" data-a="revisi" style="margin-top:8px">Kirim revisi</button><div class="err" id="revErr"></div>
+      ${cap ? `<label>Caption</label><pre class="cap" id="cap">${esc(cap)}</pre><button class="btn small" data-a="salin">Salin caption</button>` : ''}
+      ${v.lembar ? `<label>Cuplikan</label><img class="sheet" src="${base}${v.lembar}" alt="Lembar cuplikan ${esc(v.title)}">` : ''}</div></div>`;
+  d.onclick = async e => {
+    if (e.target === d || e.target.id === 'tutup') return d.close();
+    const a = e.target.dataset.a; if (!a) return;
+    if (a === 'finder') api('/api/buka', { project: n, file: v.mp4 || '' });
+    if (a === 'salin') { navigator.clipboard.writeText(cap); e.target.textContent = 'Tersalin'; }
+    if (a === 'render') { await api('/api/render', { project: n }); d.close(); refresh(); }
+    if (a === 'revisi') { const c = $('rev').value.trim(); if (!c) return ($('revErr').textContent = 'Tulis catatan revisinya dulu.'); await api('/api/revisi', { project: n, catatan: c }); d.close(); refresh(); }
+  };
+  d.showModal();
+}
+
+let sigV = '', sigJ = '', lastD = -1;
+async function refresh() {   // gambar ulang hanya kalau datanya berubah, supaya klik tidak hilang di tengah jalan
+  const [v, j] = await Promise.all([api('/api/videos'), api('/api/jobs')]), sv = JSON.stringify(v), sj = JSON.stringify(j);
+  VIDS = v; JOBS = j;
+  if (sj !== sigJ || DENGAR !== lastD) { sigJ = sj; lastD = DENGAR; drawJobs(); }
+  if (sv !== sigV) { sigV = sv; drawGrid(); }
+}
+// ---------- tab ----------
+document.querySelector('nav.tabs').onclick = e => {
+  const b = e.target.closest('button'); if (!b) return;
+  document.querySelectorAll('nav.tabs button').forEach(x => x.setAttribute('aria-selected', x === b));
+  $('vVideo').hidden = b.dataset.tab !== 'vVideo'; $('vGaya').hidden = b.dataset.tab !== 'vGaya';
+  if (b.dataset.tab === 'vGaya') bukaGaya();
+};
+
+// ---------- Gaya Saya ----------
+let GI = null, G = null, gWarna = {};
+const swatch = c => `<span class="sw">${c.map(x => `<i style="background:${x}"></i>`).join('')}</span>`;
+const BENTUK = [['sudut', 'Sudut'], ['subtitle', 'Subtitle'], ['stempel', 'Stempel bunyi'], ['garisTepi', 'Garis tepi benda']];
+const TOKEN = [['latar', 'Latar'], ['kartu', 'Kartu'], ['tinta', 'Tinta'], ['aksen', 'Aksen'], ['sorot', 'Sorot'], ['stempel', 'Stempel']];
+async function muatGaya() {
+  GI = await api('/api/gaya');
+  $('gayaPilih').innerHTML = `<option value="bawaan">Bawaan Kita Bongkar</option>` + GI.daftar.map(g => `<option value="${esc(g.id)}">${esc(g.nama)}</option>`).join('');
+  $('gayaPilih').value = GI.aktif;
+  if (!document.getElementById('hurufStudio')) {
+    const st = document.createElement('style'); st.id = 'hurufStudio';
+    st.textContent = Object.values(GI.huruf).flatMap(h => h.file).map(([f, n]) => `@font-face{font-family:'${f}';src:url('/huruf/${n}') format('woff2');font-weight:100 900}`).join('');
+    document.head.appendChild(st);
+  }
+}
+async function bukaGaya() {
+  await muatGaya();
+  const aktif = GI.daftar.find(g => g.id === GI.aktif);
+  pilihGaya(aktif || G || { ...GI.kosong, id: '', nama: 'Gaya Saya' });
+}
+function pilihGaya(g) { G = { ...GI.kosong, ...g, warna: { ...(g.warna || {}) } }; $('gErr').textContent = ''; $('gUjiImg').innerHTML = ''; gambarEditor(); perbarui(); }
+function gambarEditor() {
+  $('gList').innerHTML = `<button class="chip" data-id="bawaan" aria-pressed="${!G.id && G.preset === 'bawaan' && !G.merek}">${swatch(GI.preset.bawaan.contoh)}Bawaan${GI.aktif === 'bawaan' ? ' <span class="on">aktif</span>' : ''}</button>` +
+    GI.daftar.map(g => `<button class="chip" data-id="${esc(g.id)}" aria-pressed="${g.id === G.id}">${swatch(g.contoh)}${esc(g.nama)}${g.id === GI.aktif ? ' <span class="on">aktif</span>' : ''}</button>`).join('') +
+    `<button class="chip" data-id="" style="padding-left:12px">＋ Gaya baru</button>`;
+  $('gNama').value = G.nama || '';
+  $('gPreset').innerHTML = Object.entries(GI.preset).map(([k, p]) => `<button class="preset" data-p="${k}" aria-pressed="${!G.merek && G.preset === k}">${swatch(p.contoh)}${esc(p.nama)}</button>`).join('');
+  $('gGelap').checked = !!G.gelap;
+  $('gHuruf').innerHTML = Object.entries(GI.huruf).map(([k, h]) => `<button class="font" data-h="${k}" aria-pressed="${G.huruf === k}"><b style="font-family:${h.sans}">Aa Bongkar</b>${esc(h.nama)}<br><span>${esc(h.ket)}</span></button>`).join('');
+  $('gBentuk').innerHTML = BENTUK.map(([k, n]) => `<div class="segl">${n}</div><div class="seg" data-k="${k}">${Object.entries(GI.pilihan[k]).map(([v, t]) => `<button data-v="${v}" aria-pressed="${G[k] === v}">${esc(t.replace(' (bawaan)', ''))}</button>`).join('')}</div>`).join('');
+  $('gKarakter').innerHTML = Object.entries(GI.pilihan.karakter).map(([v, t]) => `<button data-v="${v}" aria-pressed="${G.karakter === v}">${esc(t.replace(' (bawaan)', ''))}</button>`).join('');
+  $('gSeri').value = G.seri || ''; $('gPenutup').value = G.penutup || '';
+  $('gMusik').innerHTML = Object.entries(GI.pilihan.musik).map(([v, t]) => `<option value="${v}">${esc(t)}</option>`).join(''); $('gMusik').value = G.musik || 'sinematik';
+  $('gLogoImg').hidden = $('gLogoHapus').hidden = !G.logo; if (G.logo) $('gLogoImg').src = `/file/gaya-saya/${encodeURIComponent(G.logo)}?${Date.now()}`;
+  $('gHapus').hidden = !G.id;
+}
+let tunda = 0, urut = 0;
+function perbarui() { clearTimeout(tunda); tunda = setTimeout(gambarPratinjau, 180); }
+async function gambarPratinjau() {
+  const n = ++urut;
+  const [h, c1, c2] = await Promise.all([api('/api/gaya/hitung', G),
+    fetch('/api/gaya/pratinjau', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ gaya: G, adegan: 'cover' }) }).then(r => r.text()),
+    fetch('/api/gaya/pratinjau', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ gaya: G, adegan: 'isi' }) }).then(r => r.text())]);
+  if (n !== urut) return;
+  gWarna = h.warna; $('pCover').srcdoc = c1; $('pIsi').srcdoc = c2;
+  $('gMerek').value = G.merek || h.warna.aksen; $('gSorot').value = h.warna.sorot; $('gMerekT').textContent = G.merek ? 'Warna merek' : 'Warna merek (dari contoh)';
+  $('gWarna').innerHTML = TOKEN.map(([k, n]) => `<label class="col"><input type="color" data-w="${k}" value="${h.warna[k]}">${n}${G.warna[k] ? ' •' : ''}</label>`).join('');
+  $('gKontras').innerHTML = h.kontras.map(k => `<li><span class="${k.lolos ? 'ok' : 'no'}">${k.lolos ? '✓' : '⚠'}</span>${esc(k.nama)}<b>${String(k.rasio).replace('.', ',')}:1</b></li>`).join('');
+  const gagal = h.kontras.filter(k => !k.lolos).length;
+  $('gStatus').textContent = gagal ? `${gagal} pasangan warna kurang kontras` : 'Semua teks mudah dibaca';
+}
+const ubah = (k, v) => { G[k] = v; gambarEditor(); perbarui(); };
+$('gList').onclick = e => { const b = e.target.closest('.chip'); if (!b) return; const id = b.dataset.id;
+  pilihGaya(id === 'bawaan' ? { ...GI.kosong, id: '', nama: 'Gaya Saya' } : id ? GI.daftar.find(g => g.id === id) : { ...GI.kosong, id: '', nama: 'Gaya baru', preset: 'laut' }); };
+$('gPreset').onclick = e => { const b = e.target.closest('.preset'); if (!b) return; const p = GI.preset[b.dataset.p];
+  Object.assign(G, { preset: b.dataset.p, merek: '', sorot: p.sorot || '', gelap: !!p.gelap, warna: {} }, ...['huruf', 'sudut', 'stempel', 'subtitle'].filter(k => p[k]).map(k => ({ [k]: p[k] }))); gambarEditor(); perbarui(); };
+$('gMerek').oninput = e => { G.merek = e.target.value; G.warna = {}; gambarEditor(); perbarui(); };
+$('gSorot').oninput = e => { G.sorot = e.target.value; delete G.warna.sorot; perbarui(); };
+$('gGelap').onchange = e => { G.gelap = e.target.checked; if (!G.merek) G.merek = gWarna.aksen; G.warna = {}; gambarEditor(); perbarui(); };
+$('gWarna').oninput = e => { const k = e.target.dataset.w; if (k) { G.warna[k] = e.target.value; perbarui(); } };
+$('gWarnaReset').onclick = () => { G.warna = {}; perbarui(); };
+$('gHuruf').onclick = e => { const b = e.target.closest('.font'); if (b) ubah('huruf', b.dataset.h); };
+$('gBentuk').onclick = e => { const b = e.target.closest('button'); if (b) ubah(b.parentElement.dataset.k, b.dataset.v); };
+$('gKarakter').onclick = e => { const b = e.target.closest('button'); if (b) ubah('karakter', b.dataset.v); };
+$('gNama').oninput = e => (G.nama = e.target.value);
+$('gSeri').oninput = e => { G.seri = e.target.value.toUpperCase(); perbarui(); };
+$('gPenutup').oninput = e => (G.penutup = e.target.value);
+$('gMusik').onchange = e => (G.musik = e.target.value);
+$('gLogo').onchange = async e => {
+  const f = e.target.files[0]; if (!f) return;
+  const data = await new Promise(r => { const fr = new FileReader(); fr.onload = () => r(fr.result); fr.readAsDataURL(f); });
+  const r = await api('/api/gaya/logo', { id: G.id || G.nama || 'gaya', data }); e.target.value = '';
+  if (r.error) return ($('gErr').textContent = r.error);
+  ubah('logo', r.logo);
+};
+$('gLogoHapus').onclick = () => ubah('logo', '');
+async function simpan(aktifkan) {
+  if (!(G.nama || '').trim()) return ($('gErr').textContent = 'Beri nama gayanya dulu.');
+  const r = await api('/api/gaya/simpan', { gaya: G, aktifkan });
+  if (r.error) return ($('gErr').textContent = r.error);
+  GI.daftar = r.daftar; GI.aktif = r.aktif; G = { ...G, id: r.gaya.id }; await muatGaya(); gambarEditor();
+  $('gErr').textContent = ''; $('gStatus').textContent = aktifkan ? 'Tersimpan. Video baru memakai gaya ini.' : 'Tersimpan.';
+}
+$('gSimpan').onclick = () => simpan(false);
+$('gSimpanAktif').onclick = () => simpan(true);
+$('gHapus').onclick = async () => { if (!G.id || !confirm(`Hapus gaya "${G.nama}"? Video yang sudah dibuat tidak berubah.`)) return; await api('/api/gaya/hapus', { id: G.id }); G = null; bukaGaya(); };
+$('gUji').onclick = async () => {
+  const b = $('gUji'); b.disabled = true; b.textContent = 'Sedang membuat…'; $('gUjiImg').innerHTML = '';
+  const r = await api('/api/gaya/uji', { gaya: G }); b.disabled = false; b.textContent = 'Buat gambar uji';
+  if (r.error) return ($('gUjiNote').textContent = r.error);
+  $('gUjiImg').innerHTML = r.gambar.map((u, k) => `<a href="${u}" target="_blank"><img src="${u}" alt="Gambar uji ${k + 1}"></a>`).join('');
+};
+muatGaya();
+cekClaude(); refresh();
+setInterval(() => { refresh(); }, 3000);
+setInterval(cekClaude, 5000);
+</script>
+</body>
+</html>

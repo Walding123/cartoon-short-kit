@@ -1,0 +1,23 @@
+CAPTION UTAMA
+Colokan di dinding cuma lubang… lalu listriknya datang dari mana? ⚡
+
+Kita bongkar generator di pembangkit listrik:
+1. Uap panas memutar turbin, turbin memutar poros generator.
+2. Di poros itu ada magnet raksasa (rotor) yang berputar 3.000 kali per menit di dalam gulungan kawat tembaga (stator).
+3. Setiap kutub magnet lewat, elektron di kawat tembaga terdorong. Itulah arus listrik, yang lalu dikirim lewat jaringan PLN sampai ke colokan rumahmu.
+
+Jadi listrik tidak muncul dari nol: energi gerak diubah jadi energi listrik.
+
+Kamu baru tahu? Tulis di komentar 👇
+
+#kitabongkar #listrik #pln #generator #sains #edukasi
+
+VERSI PENDEK
+Listrik di colokan rumahmu berawal dari magnet raksasa yang berputar 3.000 kali per menit ⚡
+
+JUDUL SHORTS
+Listrik di colokan datang dari mana? #shorts
+
+SUMBER & CATATAN
+- Generator 2 kutub berputar 3.000 rpm pada jaringan 50 Hz; stator berisi batang tembaga di alur inti, rotor = elektromagnet berputar (WEG, Turbogenerator 2-pole: https://static.weg.net/medias/downloadcenter/h2e/h3a/EM_2_Pole_TG_Steam_Gas_T_Driven.pdf ; Generators 101, CCJ: https://www.ccj-online.com/wp-content/uploads/2022/02/Generators-101-Slides.pdf ; TU Darmstadt EMD 8: https://www.ew.tu-darmstadt.de/media/ew/rd/ew_alte_lv/lv_emd/EMD_8.pdf)
+- Ilustrasi disederhanakan: rotor generator besar adalah elektromagnet (bukan magnet permanen); warna merah (U) dan biru (S) pada kutub hanya alat bantu. Putaran ditampilkan diperlambat ±80×. Tidak semua listrik berasal dari turbin uap (ada PLTA, PLTB, panel surya), tapi sebagian besar pembangkit memakai prinsip generator yang sama.

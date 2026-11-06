@@ -1,0 +1,28 @@
+CAPTION UTAMA
+Rice cooker, dispenser, setrika, ketel listrik… semua dicolok ke SATU terminal. Apa jadinya kalau nyala barengan? 🔥
+
+Kita bongkar terminalnya:
+1) Terminal 4 lubang umumnya cuma kuat 10 A, kira-kira 2.200 W (10 A × 220 V). Angkanya tercetak di badan terminal.
+2) Satu rice cooker (±400 W) cuma butuh ±1,8 A. Tapi empat alat pemanas sekaligus: 400 + 350 + 350 + 1.500 = 2.600 W → ±11,8 A. Lewat batas!
+3) Semua arus itu lewat rel kuningan yang sama. Panas di kuningan sebanding dengan kuadrat arus (P = I²R): arus 6,5× lipat → panas ±42× lipat dibanding satu rice cooker.
+4) Akibatnya bertahap: plastik melunak dan menguning, per penjepit kendur, muncul percikan, bau gosong, lalu plastik bisa meleleh dan terbakar.
+5) Kalau beruntung, MCB rumah turun duluan. Kalau tidak… terminalnya yang jadi korban.
+
+Makanya: cek angka A/W di terminalmu, jumlahkan watt semua alat sebelum colok, dan pakai satu stop kontak untuk satu alat pemanas.
+
+Di rumahmu, alat apa yang paling sering "numpuk" di satu terminal? Tulis di komentar 👇
+
+Sumber & catatan:
+• Listrik Indonesia, "Stop Kontak Bertumpuk, Kebiasaan Sepele yang Berisiko Besar" dan "Waspada! Hal Ini Bisa Bikin Stop Kontak di Rumah Anda Meleleh" (listrikindonesia.com)
+• Kemenkes Keslan, "Apa Bahaya dari Menumpuk Steker?" (keslan.kemkes.go.id)
+• Panas pada sambungan: P = I²R (hukum Joule). Kontak longgar menaikkan hambatan sambungan, jadi panasnya makin besar.
+• Daya alat adalah nilai umum di label produk (rice cooker masak ±400 W, dispenser pemanas ±350 W, setrika kering ±350 W, ketel listrik ±1.500 W); cek label alatmu sendiri. Arus dihitung pada 220 V.
+• "42× panas" dihitung dari model: (2.600 W ÷ 400 W)² = 6,5² ≈ 42, dengan hambatan kontak dianggap sama. Kenyataannya hambatan ikut naik saat panas, jadi bisa lebih buruk.
+• Ilustrasi disederhanakan, bukan merek tertentu. Warna menyala pada kuningan dilebih-lebihkan supaya panasnya terlihat; kuningan sebenarnya tidak membara pada suhu ini. MCB tidak selalu turun sebelum terminal rusak, karena batas MCB rumah bisa lebih besar dari batas terminal.
+#kitabongkar #apajadinyakalau #listrik #stopkontak #terminallistrik #amanlistrik #edukasi #faktaunik #belajardirumah
+
+VERSI PENDEK (Threads/Shorts)
+4 alat pemanas di 1 terminal = 2.600 W, padahal terminalnya cuma kuat 2.200 W (10 A). Arusnya 6,5× lipat, panas di kuningannya ±42× lipat. Plastik melunak, penjepit kendur, percikan… lalu meleleh. Cek angka di terminalmu, satu pemanas satu stop kontak. 🔌🔥
+
+JUDUL YOUTUBE SHORTS
+Apa Jadinya Kalau 4 Alat Pemanas Dicolok ke Satu Terminal? 🔥 #shorts

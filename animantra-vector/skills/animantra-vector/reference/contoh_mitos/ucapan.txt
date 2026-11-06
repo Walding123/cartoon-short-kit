@@ -1,0 +1,10 @@
+Charger dicolok terus, padahal hape-nya nggak ada. Katanya... bikin token cepat habis.
+Benar nggak? Yuk, kita uji.
+Tanpa hape, nggak ada yang diisi. Tapi ai-si di dalam charger tetap berjaga, siap kalau hape datang.
+Penjagaan ini butuh listrik. Tapi charger modern dibatasi aturan: paling banyak nol koma satu watt.
+Kita hitung. nol koma satu watt kali dua puluh empat jam kali tiga puluh hari... cuma tujuh puluh dua watt-jam.
+Dengan tarif seribu empat ratus empat puluh empat rupiah per kilowatt-jam, itu sekitar... seratus rupiah sebulan.
+Lampu LED sembilan watt menghabiskan listrik sebanyak itu dalam delapan jam saja.
+Jadi, charger dicolok terus bikin boros? Mitos!
+Tapi... charger murahan atau yang sudah rusak bisa panas. Nah, itu yang berbahaya.
+Makanya, cabut charger kalau nggak dipakai. Bukan demi hemat, tapi demi aman.

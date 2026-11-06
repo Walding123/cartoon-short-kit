@@ -1,0 +1,28 @@
+CAPTION UTAMA
+Tekan tuasnya, tinggal tunggu. Dua puluh menit kemudian: klek! Lampu pindah ke hangat, nasinya pas matang. Padahal rice cooker nggak punya mata, nggak punya timer. Terus dia tahu dari mana? 🍚
+
+Yuk, kita bongkar:
+1️⃣ Di tengah pelat pemanas ada sensor bulat yang didorong per ke dasar panci. Waktu tuas ditekan, magnet kecil di bawahnya menempel ke sensor dan menahan saklar pemanas tetap menyala.
+2️⃣ Selama masih ada air, panci tertahan di sekitar 100 °C. Panas tambahan habis dipakai untuk menguapkan air.
+3️⃣ Begitu airnya habis terserap dan menguap, suhu panci naik melewati 100 °C. Logam di sensor punya batas suhu: di atas itu ia berhenti tertarik magnet. Magnet jatuh, tuas terlepas, klek! Pemanas utama mati.
+
+Jadi rice cooker nggak tahu nasi. Ia cuma tahu kapan airnya habis.
+
+Bonus: itu sebabnya nasi jadi keras kalau airnya kurang. Airnya habis lebih cepat, sensor lepas lebih cepat, padahal berasnya belum matang.
+
+Kamu biasa ukur air pakai ruas jari atau garis di panci? Tulis di komentar 👇
+
+Sumber & catatan:
+• Cara kerja magnet & batas suhu (titik Curie) di sensor rice cooker: https://kottke.org/24/01/the-clever-engineering-trick-that-allows-simple-rice-cookers-to-perfectly-cook-rice
+• Bongkar rice cooker Zojirushi NHS-10 (dua magnet + per di sensor): https://kclarke25wfe.commons.gc.cuny.edu/technical-description
+• Paten US4315138 (sensor magnet yang lepas di suhu tertentu): https://patents.google.com/patent/US4315138
+• Batas suhu sensor berbeda antar sumber (sedikit di atas 100 °C sampai sekitar 130 °C). Di animasi dipakai 103 °C. Waktu masak, kurva suhu, dan "60% matang" dihitung dari model ilustrasi, bukan diukur dari satu merek.
+• Ilustrasi disederhanakan, bukan merek tertentu. Rice cooker digital (fuzzy logic) memakai sensor elektronik, bukan magnet.
+
+#kitabongkar #ricecooker #carakerja #sainssehari #edukasi #fisika #dapur
+
+VERSI PENDEK (Threads/Shorts)
+Rice cooker nggak tahu nasimu matang. Ia cuma tahu kapan airnya habis: selama ada air, panci tertahan di 100 °C. Air habis, suhu naik, logam di sensor berhenti tertarik magnet, dan klek! 🍚
+
+JUDUL YOUTUBE SHORTS
+Rice Cooker Sebenarnya Nggak Tahu Nasimu Matang #shorts

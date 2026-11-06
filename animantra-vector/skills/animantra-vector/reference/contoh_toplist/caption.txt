@@ -1,0 +1,27 @@
+CAPTION UTAMA
+Token listrik cepat habis? 5 alat ini biang keroknya ⚡
+
+#5 Setrika: 350 W × 1 jam/hari → 10,5 kWh → ±Rp15 rb/bulan
+#4 Dispenser: pemanas nyala-mati ±1 kWh/hari → 30 kWh → ±Rp43 rb/bulan
+#3 Kulkas: kompresor nyala-mati ±1,2 kWh/hari → 36 kWh → ±Rp52 rb/bulan
+#2 Rice cooker dibiarkan menghangatkan: masak 400 W×½ jam + hangat 60 W×20 jam → 42 kWh → ±Rp61 rb/bulan
+#1 AC 1 PK: 800 W × 8 jam/hari → 192 kWh → ±Rp277 rb/bulan
+
+Dihitung dengan tarif R-1 1.300 VA Rp1.444,70/kWh, 30 hari.
+Tips hemat: matikan mode hangat rice cooker kalau nasi nggak segera dimakan, dan jangan setel AC terlalu dingin.
+
+Alat mana yang paling sering nyala di rumahmu? Tulis di komentar 👇
+
+#toplist #hematlistrik #tokenlistrik #pln #listrik #tipsrumah
+
+VERSI PENDEK
+5 alat yang bikin token cepat habis, nomor 1 hampir semua rumah punya ⚡
+
+JUDUL SHORTS
+5 alat yang bikin token listrik cepat habis #shorts
+
+SUMBER & CATATAN
+- Daya alat rumah tangga (AC 1 PK ±700–950 W, kulkas 100–200 W, dispenser 1–1,4 kWh/hari, setrika 300–450 W, rice cooker masak 300–400 W / hangat ±30–100 W): https://www.metrotvnews.com/read/NQACYd9R-5-alat-rumah-tangga-paling-boros-listrik-dan-cara-menghemat-tagihan-bulanan ; https://www.rctiplus.com/news/detail/gaya-hidup/5450770/dispenser-air-ternyata-lebih-boros-listrik-dibandingkan-kulkas--kok-bisa- ; https://www.erablue.id/blog/kulkas-berapa-watt-1571314 ; https://bluettipower.com/blogs/knowledge/how-many-watts-does-rice-cooker-use
+- Rumus kWh = watt × jam ÷ 1000: https://pegadaian.co.id/artikel/inspirasi/hitung-konsumsi-alat-listrik-tiap-bulan-sesuai-tarif-listrik-2021
+- Tarif R-1/TR 1.300 VA Rp1.444,70/kWh (2025): https://www.kompas.tv/info-publik/633030/tarif-listrik-pln-per-kwh-24-30-november-2025-lengkap-untuk-pelanggan-subsidi-dan-non-subsidi
+Catatan: angka adalah contoh dengan asumsi jam pakai di atas; daya & jam pakai tiap rumah berbeda. Cek tarif terbaru di PLN Mobile.

@@ -1,0 +1,28 @@
+CAPTION UTAMA
+POV: kamu setetes air di dasar sumur, dan tujuanmu cuma satu, gelas di dapur. 💧
+
+Jaraknya ±14 meter, tapi ada tiga rintangan:
+1. Naik dari sumur. Pompa jet menyedot air lewat klep kaki (pompa sumur dangkal umumnya sanggup menyedot sampai ±9 meter), lalu impeler mendorongnya ke tabung tekanan.
+2. Pipa tegak. Air didorong naik setinggi rumah ke atap.
+3. Toren. Toren 1.050 liter terisi pelan-pelan sampai bola pelampung terangkat dan katupnya menutup.
+
+Momen genting: begitu katup pelampung menutup, air nggak bisa lewat lagi. Tekanan di pipa naik, dan saklar tekanan di atas pompa mematikan motornya. Klik. Sunyi.
+Waktu keran dapur dibuka, pompa nggak perlu kerja: gravitasi yang menarik air turun dari toren ke gelasmu.
+
+Jadi tiap kamu buka keran, pompa, pelampung, dan gravitasi sudah kerja duluan.
+
+Di rumahmu pakai toren atau langsung PDAM? Tulis di komentar 👇
+
+#povair #pompaair #toren #carakerja #sainsseharihari #rumah
+
+VERSI PENDEK
+POV: setetes air dari sumur ke gelasmu. Tiga rintangan: pompa jet, pipa tegak, toren. Pelampung menutup, saklar tekanan mematikan pompa, lalu gravitasi mengantar air ke keran. 💧
+
+JUDUL SHORTS
+Jadi setetes air: dari sumur ke gelasmu #shorts
+
+SUMBER & CATATAN
+- Daya hisap pompa jet sumur dangkal ±9 m (contoh: Shimizu PS-128 BIT, daya hisap maks. 9 m, 125 W): https://www.tokopedia.com/qhomemart/pompa-air-shimizu-ps-128-bit-non-otomatis-sumur-dangkal ; https://en.indotrading.com/sinarsuryabali/ps-128-bit-p100170.aspx
+- Toren 1.050 L (Penguin TB 110, Ø±106 cm, tinggi ±127 cm): https://en.indotrading.com/kamarmandikucom/tangki-air-tb-p62752.aspx
+- Pelampung mengatur level air di toren, saklar tekanan (pressure switch) mematikan pompa saat tekanan di pipa mencapai batas atas: https://www.detik.com/properti/tips-dan-panduan/d-7007707/air-di-toren-kosong-meski-sudah-pakai-sensor-otomatis-mungkin-ini-sebabnya ; https://etheses.uinsgd.ac.id/4368/4/4_bab1.pdf
+Catatan: ilustrasi disederhanakan, bukan merek tertentu. Rumah dibelah supaya isinya terlihat; jarak dan tinggi dipendekkan (sumur ±2,5 m di bawah pompa, toren ±3,4 m di atas lantai). Panjang jalur ±14 m dihitung dari model. Pengukur tekanan di video hanya menunjukkan tanda ON/OFF, tanpa angka, karena setelan tiap pompa berbeda. Di banyak rumah, pompa juga bisa dimatikan pelampung listrik (bukan kran pelampung mekanis).

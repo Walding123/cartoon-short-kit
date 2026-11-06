@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<title>Kunci Pintu</title>
+<style>
+  /* gaya mengikuti spesifikasi "video bedah": kertas terang, tinta gelap, kuning = bagian ini */
+  :root { --paper: #f3f3f0; --ink: #16171b; --muted: #6c6e76; --red: #e5484d; --green: #30a46c;
+    --yellow: #ffe259; --orange: #f08c2e; --tag: #2b2b30; --stampred: #c2261a;
+    --sans: -apple-system, "SF Pro Display", "Helvetica Neue", sans-serif;
+    --mono: ui-monospace, "SF Mono", Menlo, monospace; }
+  html, body { margin: 0; background: var(--paper); overflow: hidden; }
+  #stage { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: var(--paper);
+    font-family: var(--sans); color: var(--ink); }
+  #shake { position: absolute; inset: 0; }
+  canvas#gl { display: block; position: absolute; inset: 0; }
+  .ov { position: absolute; pointer-events: none; }
+
+  #hud { left: 0; right: 0; top: 0; height: 430px; padding: 120px 72px 0;
+    background: linear-gradient(var(--paper) 78%, rgba(243,243,240,0)); }
+  #title { font-weight: 800; font-size: 74px; line-height: 1.1; letter-spacing: -.02em; max-width: 900px; }
+  #title em { font-style: normal; color: var(--red); }
+  #title.in { animation: tin .5s cubic-bezier(.16,1,.3,1) both; }
+  @keyframes tin { from { opacity: 0; transform: translateY(26px); } }
+  #readout { position: absolute; left: 72px; right: 72px; top: 330px; display: flex; align-items: center; gap: 18px;
+    font-family: var(--mono); font-variant-numeric: tabular-nums; }
+  #readout .n { font-size: 58px; font-weight: 650; letter-spacing: -.03em; }
+  #readout .u { font-size: 30px; font-weight: 500; color: var(--muted); letter-spacing: .02em; }
+  #chip { margin-left: auto; font: 700 27px var(--mono); letter-spacing: .1em; color: #fff; text-transform: uppercase;
+    border-radius: 999px; padding: 15px 26px 13px; transition: none; }
+
+  #tags { inset: 0; }
+  .tag { position: absolute; display: flex; align-items: center; gap: 12px; background: var(--tag); color: #fff;
+    font: 800 31px var(--sans); letter-spacing: .04em; text-transform: uppercase; padding: 15px 22px 13px;
+    border-radius: 999px; box-shadow: 0 10px 30px rgba(0,0,0,.2); white-space: nowrap; transform-origin: var(--ox) 50%; }
+  .tag.hi { background: var(--yellow); color: var(--ink); box-shadow: 0 0 0 4px var(--ink), 0 10px 30px rgba(0,0,0,.2); }
+  .tag.warn { background: var(--orange); color: var(--ink); box-shadow: 0 0 0 4px var(--ink), 0 10px 30px rgba(0,0,0,.2); }
+  .tag svg { width: 34px; height: 26px; flex: none; }
+
+  #stamp { left: 0; right: 0; top: 760px; text-align: center; }
+  #stamp span { position: relative; display: inline-block; font: 900 128px var(--sans); letter-spacing: -.01em;
+    text-transform: uppercase; color: #fff; transform-origin: 50% 50%; }
+  #stamp span::before { content: attr(data-t); position: absolute; inset: 0; z-index: -1; color: var(--stampred);
+    -webkit-text-stroke: 30px var(--stampred); text-shadow: 0 13px 0 var(--stampred); }
+  #stamp span.snd { color: var(--yellow); }
+  #stamp span.snd::before { color: var(--ink); -webkit-text-stroke: 30px var(--ink); text-shadow: 0 13px 0 var(--ink); }
+
+  #cap { left: 60px; right: 60px; top: 1440px; text-align: center; font: 800 58px/1.5 var(--sans); letter-spacing: -.01em; }
+  #cap .pill { background: rgba(20,20,20,.92); color: #8f8f96; border-radius: 26px; padding: 8px 26px 11px;
+    box-decoration-break: clone; -webkit-box-decoration-break: clone; box-shadow: 0 16px 48px rgba(0,0,0,.15); }
+  #cap .pill.in { animation: cin .32s cubic-bezier(.16,1,.3,1) both; display: inline; }
+  @keyframes cin { from { opacity: .2; } }
+  #cap b { font-weight: 800; }
+  #cap b.past { color: #fff; }
+  #cap b.cur { color: #141414; background: var(--yellow); border-radius: 12px; padding: 0 8px; margin: 0 -8px;
+    box-shadow: 0 0 0 5px var(--yellow); }
+
+  #inset { left: 90px; right: 90px; top: 560px; height: 760px; background: #fff; border: 3px solid var(--ink);
+    border-radius: 40px; box-shadow: 0 30px 80px rgba(22,23,27,.14); opacity: 0; overflow: hidden; }
+  #inset .k { position: absolute; left: 44px; top: 36px; font: 700 26px var(--mono); letter-spacing: .12em; color: var(--muted); }
+  #inset svg { position: absolute; inset: 0; }
+  #dim { inset: 0; }
+  #fade { inset: 0; background: var(--paper); opacity: 0; }
+</style>
+<script type="importmap">
+{ "imports": { "three": "./node_modules/three/build/three.module.js",
+               "three/addons/": "./node_modules/three/examples/jsm/" } }
+</script>
+</head>
+<body>
+<div id="stage">
+  <div id="shake">
+    <canvas id="gl"></canvas>
+    <svg class="ov" id="dim" width="1080" height="1920"></svg>
+    <div class="ov" id="tags"></div>
+        <div class="ov" id="stamp"></div>
+  </div>
+  <div class="ov" id="hud"><div id="title"></div>
+    <div id="readout"><span class="n" id="rn">0/5</span><span class="u" id="ru">pin pas garis potong</span><span id="chip"></span></div>
+  </div>
+  <div class="ov" id="cap"></div>
+  <div class="ov" id="fade"></div>
+</div>
+<script type="module" src="./scene.js"></script>
+</body>
+</html>
