@@ -26,7 +26,7 @@ dec = subprocess.Popen([FF, '-loglevel', 'error', '-i', src, '-f', 'image2pipe',
 enc = subprocess.Popen([FF, '-y', '-loglevel', 'error', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-', '-i', src, '-i', str(cover),
                         '-filter_complex', f'[1:a]adelay={ms}|{ms}[a]', '-map', '0:v', '-map', '[a]', '-map', '2:v',
                         '-c:v:0', 'libx264', '-crf', '17', '-preset', 'medium', '-pix_fmt', 'yuv420p',
-                        '-c:v:1', 'mjpeg', '-disposition:v:1', 'attached_pic',
+                        '-c:v:1', 'mjpeg', '-pix_fmt:v:1', 'yuvj420p', '-disposition:v:1', 'attached_pic',
                         '-c:a', 'aac', '-b:a', '192k', '-movflags', '+faststart', dst], stdin=subprocess.PIPE)
 hold_n, fade_n = round(HOLD * FPS), round(FADE * FPS)
 thb = th.astype(np.uint8).tobytes()
