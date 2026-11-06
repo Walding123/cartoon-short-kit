@@ -92,6 +92,19 @@ const drawProp = (p, kind, hx, hy, u, side, f) => {
       p.poly([[hx - 9 * u, hy - 12 * u], [hx + 9 * u, hy - 12 * u], [hx + 9 * u, hy], [hx - 9 * u, hy]], "#fff6dc", 1.5 * u);
       p.dot(hx, hy, 5.5 * u);
       break;
+    case "popsicle": case "popsicleRed": { // ice pop on a stick, pointing up from the hand
+      const col = kind === "popsicleRed" ? "#e2504a" : "#f2913a", w = 13 * u, top = hy - 74 * u, bot = hy - 24 * u;
+      p.band([[hx, hy + 6 * u], [hx, bot + 4 * u]], "#d9b27a", 5 * u, 1.5 * u);
+      p.poly([[hx - w, bot], [hx - w, top + w], [hx - w * 0.7, top + w * 0.3], [hx, top], [hx + w * 0.7, top + w * 0.3], [hx + w, top + w], [hx + w, bot]], col, 3.5 * u);
+      p.band([[hx - w * 0.45, top + 16 * u], [hx - w * 0.45, bot - 8 * u]], "rgba(255,255,255,0.55)", 3 * u, 0);
+      p.dot(hx, hy, 5.5 * u);
+      break;
+    }
+    case "packet": // paper sachet of soda powder
+      p.poly([[hx - 12 * u, hy - 30 * u], [hx + 12 * u, hy - 34 * u], [hx + 14 * u, hy + 2 * u], [hx - 10 * u, hy + 4 * u]], "#f4ead2", 3 * u);
+      p.poly([[hx - 11 * u, hy - 18 * u], [hx + 13 * u, hy - 21 * u], [hx + 13.5 * u, hy - 12 * u], [hx - 10.5 * u, hy - 9 * u]], "#e2504a", 1.5 * u);
+      p.dot(hx, hy, 5.5 * u);
+      break;
     default: p.dot(hx, hy, 5.5 * u);
   }
 };

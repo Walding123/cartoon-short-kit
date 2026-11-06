@@ -17,8 +17,9 @@ python3 - "$OUT" <<'PY'
 import subprocess,sys
 from PIL import Image
 f=sys.argv[1]; ims=[]
+dur=float(subprocess.run(['ffprobe','-v','error','-show_entries','format=duration','-of','csv=p=0',f],capture_output=True,text=True).stdout)
 for i in range(24):
-    t=0.5+i*(75.5/24)
+    t=0.3+i*((dur-0.6)/24)
     raw=subprocess.run(['ffmpeg','-v','error','-ss',str(t),'-i',f,'-frames:v','1','-vf','scale=180:320','-f','rawvideo','-pix_fmt','rgb24','-'],capture_output=True).stdout
     ims.append(Image.frombytes('RGB',(180,320),raw))
 S=Image.new('RGB',(180*12,640))
