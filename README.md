@@ -22,6 +22,6 @@ Folder `animantra-vector/`: video "Kita Bongkar" 9:16 gaya bedah 3D (11 format).
 
 ## Lisensi
 
-Kit kartun pendek ini (semua file di luar folder `animantra-vector/`) berlisensi MIT, lihat `LICENSE`. Boleh dipakai, diubah, dan dibagikan, termasuk untuk video komersial.
+Seluruh isi repo ini, termasuk folder `animantra-vector/`, berlisensi MIT, lihat `LICENSE`. Boleh dipakai, diubah, dan dibagikan, termasuk untuk video komersial.
 
-Folder `animantra-vector/` **bukan** bagian dari lisensi MIT ini. Folder itu tetap memakai syarat di `animantra-vector/LISENSI.md` (tidak boleh dijual atau dibagikan ulang tanpa izin penjualnya). Font di dalamnya memakai SIL Open Font License 1.1.
+Pengecualian: alat pihak ketiga (three.js, Playwright, FFmpeg, dan lain-lain) memakai lisensinya masing-masing, dan font di `animantra-vector/skills/animantra-vector/huruf/` memakai SIL Open Font License 1.1. Rinciannya di `animantra-vector/LISENSI.md`.

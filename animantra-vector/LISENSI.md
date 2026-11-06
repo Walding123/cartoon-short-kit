@@ -2,7 +2,7 @@
 
 ## Animantra: Vector (skill animantra-vector)
 
-Skill, template adegan, mesin render, skrip audio, contoh proyek, installer dan panduan di paket ini boleh kamu pakai untuk membuat video tanpa batas, termasuk untuk konten komersial. Paket ini tidak boleh dijual ulang atau dibagikan ulang tanpa izin penjualnya.
+Skill, template adegan, mesin render, skrip audio, contoh proyek, installer dan panduan di paket ini berlisensi MIT, lihat `LICENSE` di folder utama repo. Boleh dipakai, diubah, dan dibagikan ulang, termasuk untuk konten komersial. Hak cipta (c) 2026 Walding123.
 
 ## Alat pihak ketiga
 
