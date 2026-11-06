@@ -18,10 +18,13 @@ Revisi suara/subtitle cukup ulang langkah 5-7, tanpa render ulang.
 - `examples/penisilin/` contoh lengkap (22 shot, 76 detik).
 
 ## Animantra: Vector (paket kedua, berbayar: repo ini harus tetap privat)
-Folder `animantra-vector/`: video "Kita Bongkar" 9:16 gaya bedah 3D (11 format). Mulai dari `animantra-vector/KATALOG.md`, jebakan di `animantra-vector/docs/CATATAN.md`. Hanya teks/kode; audio & hasil render tidak disimpan.
+
+## Isi repo
+- Kartun tokoh: `web/`, `render.mjs`, `examples/`. Bedah benda: folder `bedah/`. Mulai dari `KATALOG.md`, di sana ada pilihan jenis dan format video.
+- Catatan jebakan: `docs/CATATAN.md` (kartun), `docs/CATATAN-BEDAH.md` (bedah).
 
 ## Lisensi
 
-Seluruh isi repo ini, termasuk folder `animantra-vector/`, berlisensi MIT, lihat `LICENSE`. Boleh dipakai, diubah, dan dibagikan, termasuk untuk video komersial.
+Seluruh isi repo berlisensi MIT, lihat `LICENSE`. Boleh dipakai, diubah, dan dibagikan, termasuk untuk video komersial.
 
-Pengecualian: alat pihak ketiga (three.js, Playwright, FFmpeg, dan lain-lain) memakai lisensinya masing-masing, dan font di `animantra-vector/skills/animantra-vector/huruf/` memakai SIL Open Font License 1.1. Rinciannya di `animantra-vector/LISENSI.md`.
+Pengecualian: alat pihak ketiga (three.js: MIT, Playwright: Apache-2.0, FFmpeg: LGPL/GPL, faster-whisper: MIT, NumPy dan Pillow) memakai lisensinya masing-masing, dan font di `bedah/huruf/` memakai SIL Open Font License 1.1 (`bedah/huruf/LISENSI.txt`). Video hasil buatanmu adalah milikmu.

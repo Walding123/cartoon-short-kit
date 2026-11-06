@@ -7,3 +7,5 @@ stills/
 *.mp4
 web/toon.js
 web/story.js
+bedah/engine/alat.json
+bedah/engine/.venv/

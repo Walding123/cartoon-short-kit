@@ -7,7 +7,7 @@ description: Membuat video edukasi vertikal 9:16 "Kita Bongkar" yang membongkar 
 
 Video 9:16 (1080×1920, 30 fps, ±40–60 detik) yang membongkar cara kerja satu benda: gaya bedah flat toon dengan garis tepi tegas, kamera sinematik, narasi pelan yang bercerita, dan setiap angka atau gerak diturunkan dari satu model per waktu `renderAt(t)` yang deterministik. Mesinnya three.js (3D) + HTML/SVG (teks, diagram, subtitle), direkam Chrome headless (playwright-core), lalu disusun ffmpeg.
 
-Jalan di **Mac dan Windows** dengan perintah yang sama (semua skrip Node; Python mesin dipanggil lewat `node py.mjs`). Folder skill: `~/.claude/skills/animantra-vector/`, di Windows `%USERPROFILE%\.claude\skills\animantra-vector\` (selanjutnya `$K`; tulis path lengkapnya saat menjalankan perintah). Proyek: `<folder sesi>/<nama>/`, yaitu folder kerja chat ini (folder yang dipilih pengguna saat membuka sesi).
+Jalan di **Mac dan Windows** dengan perintah yang sama (semua skrip Node; Python mesin dipanggil lewat `node py.mjs`). Folder skill: `bedah/` di repo kit (selanjutnya `$K`; tulis path lengkapnya saat menjalankan perintah). Proyek: `<folder sesi>/<nama>/`, yaitu folder kerja chat ini (folder yang dipilih pengguna saat membuka sesi).
 
 ## Gaya bawaan: bedah (patokan mutu)
 

@@ -68,7 +68,11 @@ export function hasChrome() {
     .filter(Boolean).some(d => existsSync(join(d, 'Google', 'Chrome', 'Application', 'chrome.exe')));
   return false;
 }
+// Linux (mis. ruang kerja Claude di cloud): pakai Chrome/Chromium sistem (atau KB_CHROME) dengan perenderan perangkat lunak.
+const LINUX_CHROME = process.env.KB_CHROME || ['/usr/bin/google-chrome', '/usr/bin/chromium', '/usr/bin/chromium-browser'].find(existsSync);
 export function chromeOpts(extra = []) {
+  if (!MAC && !WIN && LINUX_CHROME) return { executablePath: LINUX_CHROME, headless: true,
+    args: ['--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist', '--no-sandbox', '--disable-dev-shm-usage', ...extra] };
   return { channel: hasChrome() ? 'chrome' : undefined, headless: true,
     args: [...(MAC ? ['--use-angle=metal'] : []), '--ignore-gpu-blocklist', ...extra] };
 }

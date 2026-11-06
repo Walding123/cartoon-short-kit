@@ -1,6 +1,6 @@
 # Catatan jebakan (ringkas, satu baris per masalah)
 
-Versi lengkap beserta alasannya: `skills/animantra-vector/reference/pelajaran.md`. Tambahkan jebakan baru di bagian paling bawah.
+Versi lengkap beserta alasannya: `bedah/reference/pelajaran.md`. Tambahkan jebakan baru di bagian paling bawah.
 
 ## Mutu & model
 - Jangan bangun benda dari kotak/tabung polos: mulai dari contoh terdekat, minimal 4–6 ciri pengenal dari foto asli.
