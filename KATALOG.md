@@ -35,8 +35,11 @@ Pilih set dengan `showSets('street')`. Cahaya: `applyLight('day' | 'night' | 'go
 ### Properti (`propR` / `propL`)
 `popsicle` (es loli oranye), `popsicleRed` (merah), `packet` (bungkus bubuk soda), `magnifier`, `suitcase`, `dishMold`, `bottle`, `flask`, `dish`, `medal`.
 
-### Tokoh
-Kepala bulat, `T.figure(p, opsi, s)`. Opsi: `jacket`, `pants`, `boots`, `hat` (`cap`, `bun`, `hair`), `moustache`, `skin`, `build: 'kid'` untuk anak. Contoh di `examples/esloli/story.js` (`FRANK_KID`, `FRANK`, `DAUGHTER`, `SON`). Pejalan kaki: `T.FOLK[0..3]`.
+### Tokoh (karakter utama = hoodie)
+**Karakter bawaan untuk semua video kartun baru: `T.hoodie`** (bagian di bawah). Pakai ini kecuali pengguna minta tokoh lain; ganti warna hoodie, celana, dan sepatu per peran lewat `T.HOODIE.*`. `T.figure` (kepala bulat lama dengan topi/kumis/dress) dan `T.stickman` hanya untuk contoh lama atau bila diminta. Pejalan kaki lama: `T.FOLK[0..3]` (pakai `T.figure`).
+
+### Tokoh hoodie (KARAKTER UTAMA, gaya maskot bongsor)
+`T.hoodie(p, opsi, s)`: kepala bulat putih, hoodie tebal (tudung, tali, kantong), tangan putih besar (pose `thumb` ada ibu jari), celana berlipatan, sneakers bersol putih. Pose, ekspresi, properti, `mode` sama dengan `T.figure`. Opsi: `color` (hoodie), `pants`, `shoes`, `cuff`, `head`, `hand`, `build: 'kid'`, plus `hat`/`moustache`. Preset: `T.HOODIE.biru | merah | hijau | kuning | ungu | oranye`. Contoh di `examples/stickman-demo/` (`new Card((p, s) => T.hoodie(p, o, s))`).
 
 ### Jebakan kartun yang sudah terjadi
 - `holdHigh` dengan properti menutupi wajah di close-up. Pakai `lift` atau `pointUp`.
