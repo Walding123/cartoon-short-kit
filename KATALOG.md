@@ -38,6 +38,9 @@ Pilih set dengan `showSets('street')`. Cahaya: `applyLight('day' | 'night' | 'go
 ### Tokoh
 Kepala bulat, `T.figure(p, opsi, s)`. Opsi: `jacket`, `pants`, `boots`, `hat` (`cap`, `bun`, `hair`), `moustache`, `skin`, `build: 'kid'` untuk anak. Contoh di `examples/esloli/story.js` (`FRANK_KID`, `FRANK`, `DAUGHTER`, `SON`). Pejalan kaki: `T.FOLK[0..3]`.
 
+### Stickman berisi berwarna
+`T.stickman(p, opsi, s)`: kepala bulat, badan kapsul terisi, lengan/kaki tebal berkontur tinta. Memakai pose tangan, ekspresi, properti, dan `mode` (stand/walk/sit) yang sama dengan `T.figure`. Opsi: `color` (badan), `head` (kepala), `limb`, `hand`, `boots`, `belt`, `shirt`, `build: 'kid'`, plus topi `hat` (`cap`, `bun`, `hair`, `boater`) dan `moustache`. Preset warna: `T.STICK.merah | biru | hijau | kuning | ungu | oranye` (sebar: `{ ...T.STICK.merah, hat: 'cap', cap: '#2b2f3a' }`). Pakai: `new Card((p, s) => T.stickman(p, o, s))`. Contoh: `examples/stickman-demo/`.
+
 ### Jebakan kartun yang sudah terjadi
 - `holdHigh` dengan properti menutupi wajah di close-up. Pakai `lift` atau `pointUp`.
 - Teks papan tulis dan stempel yang lebar terpotong. Pakai lebar bidang sekitar 1,6 dan kamera lebih jauh.
