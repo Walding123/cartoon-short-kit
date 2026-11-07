@@ -322,3 +322,113 @@ export const STICK = {
   ungu:   { color: "#8a5ad0", head: "#ffe2c2" },
   oranye: { color: "#f08a2c", head: "#ffe2c2" },
 };
+
+
+/**
+ * Tokoh hoodie (gaya maskot): kepala bulat putih, hoodie tebal (tudung, tali, kantong), tangan putih besar,
+ * celana berlipatan, sneakers bersol putih.
+ * o: { color (hoodie), pants, shoes, head (bawaan putih), hand (bawaan putih), cuff (lipatan celana), build: adult|kid,
+ *      hat/hair/cap/moustache }
+ */
+export const hoodie = (p, o, opts) => {
+  const { phase = 0, expr = "neutral", mode = "stand", look = 0, blink = 0, tilt = 0, headTilt = 0, light = R2(-120), facing = 0, seed = 1,
+    armL = "hang", armR = "hang", propL = null, propR = null, f = 0 } = opts;
+  const HB = { adult: { a: 118, torso: 0.95, legs: 0.82, tw: 0.8 }, kid: { a: 112, torso: 0.8, legs: 0.7, tw: 0.72 } };
+  const Bd = HB[o.build ?? "adult"], two = Math.PI * 2, lid = lidOf(blink);
+  const body = o.color ?? "#1f5fe0", pants = o.pants ?? "#2a2a30", shoes = o.shoes ?? body, headCol = o.head ?? "#ffffff", handCol = o.hand ?? "#ffffff";
+  const H = headBlob(seed, Bd.a, facing), W = 2 * H.a, HH = 2 * H.b, u = W / 100, sole = 975;
+  const walking = mode === "walk";
+  const bob = walking ? 0.018 * (1 + Bd.torso + Bd.legs) * HH * Math.cos(2 * two * phase) : 0;
+  const torsoBot = mode === "sit" ? sole - 0.2 * HH : sole - Bd.legs * HH + bob;
+  const chin = torsoBot - Bd.torso * HH, hc = chin - H.b, hipY = torsoBot - 0.1 * HH;
+  const thick = thickAngle(light), ow = 4.6 * u, legW = 17 * u, armW = 15 * u;
+  const limb = (pts, col, w) => { p.stroke(pts, w + 2 * ow, INK); p.stroke(pts, w, col); };
+  p.rot = null;
+  // sneakers: sol putih, badan sepatu berwarna, ujung putih, tali
+  const shoe = (x, y, side) => {
+    const cx = x + side * 7 * u;
+    p.ell(cx, y + 6 * u, 19 * u, 7.5 * u, "#f4f4f6", 3.6 * u);
+    p.ell(cx - side * 2 * u, y - 1 * u, 14.5 * u, 9.5 * u, shoes, 3.6 * u);
+    p.ell(cx + side * 10 * u, y + 1 * u, 9 * u, 7.5 * u, "#f4f4f6", 3.2 * u);
+    for (const d of [-5, 0, 5]) p.stroke([[cx - side * 6 * u + side * d * u * 0.2, y - 6 * u + d * 0.25 * u], [cx - side * 1 * u + side * d * u * 0.2, y - 3 * u + d * 0.25 * u]], 1.8 * u, "#f4f4f6");
+  };
+  const leg = (h, k, fo, side) => {
+    limb(curve(h, k, fo), pants, legW);
+    const a = [fo[0] + (k[0] - fo[0]) * 0.18, fo[1] + (k[1] - fo[1]) * 0.18 - 6 * u];
+    p.stroke([[fo[0], fo[1] - 6 * u], a], legW + 5 * u, INK); p.stroke([[fo[0], fo[1] - 6 * u], a], legW + 1.5 * u, o.cuff ?? shade(pants, 1.25));
+    shoe(fo[0], fo[1], side);
+  };
+  if (mode === "sit") {
+    for (const side of [-1, 1]) leg([300 + side * 16 * u, hipY], [300 + side * 32 * u, hipY + 0.2 * HH], [300 + side * 36 * u, sole - 14 * u], side);
+  } else {
+    const L = walking ? 40 : 0;
+    for (const [side, ph] of [[-1, 0], [1, 0.5]]) {
+      const up = Math.max(0, Math.sin(two * (phase + ph))) * L;
+      const hx = 300 + side * 16 * u, fx = 300 + side * 22 * u, fy = sole - 14 * u - up;
+      const k = [(hx + fx) / 2 + side * (1.5 * u + up * 0.16), (hipY + fy) / 2 - up * 0.08];
+      leg([hx, hipY], k, [fx, fy], side);
+    }
+  }
+  // badan
+  const sway = walking ? 1.2 * Math.sin(two * phase) : 0, A = tilt + sway;
+  p.rot = A ? [R2(A), 300, hipY] : null;
+  const T = { a: 0.36 * W, b: 0.5 * (torsoBot + 0.04 * HH - (chin - 0.12 * HH)), nTop: 2.3, nBot: 2.7, egg: 0.08, asym: 0.03 * facing, rot: 0, noise: 0.004, seed: seed + 7 };
+  const tcx = 300 + 2 * u * facing, tcy = torsoBot + 0.04 * HH - T.b, tp = blobPts(tcx, tcy, T);
+  const sh = (side) => [tcx + side * 0.82 * T.a, chin + 0.1 * HH];
+  const sw = walking ? Math.sin(two * phase) : 0;
+  const arms = [];
+  for (const [side, pose, prop] of [[-1, armL, propL], [1, armR, propR]]) {
+    let pts = armFor(pose, side, sh(side), tcx, T, HH, u, chin, f);
+    if (pose === "hang") pts = pts.map((q, i) => i ? [q[0] - side * 4 * u, q[1] - 0.04 * HH * (i - 1)] : q);
+    if (pose === "hang" && sw) pts = pts.map((q, i) => i === 2 ? [q[0] + side * 6 * u * sw, q[1]] : q);
+    arms.push({ pts, front: FRONT_POSES.has(pose), prop, side, pose });
+  }
+  const drawArm = (a) => {
+    limb(curve(a.pts[0], a.pts[1], a.pts[2]), body, armW);
+    const [hx, hy] = a.pts[2];
+    if (a.prop) { drawProp(p, a.prop, hx, hy, u, a.side, f); return; }
+    p.ell(hx, hy, 13 * u, 12 * u, handCol, 3.8 * u);
+    if (a.pose === "thumb") p.ell(hx - a.side * 1 * u, hy - 15 * u, 6.5 * u, 10 * u, handCol, 3.6 * u);
+    else p.ell(hx + a.side * 10 * u, hy - 5 * u, 5.5 * u, 4.6 * u, handCol, 3.4 * u);
+  };
+  for (const a of arms) if (!a.front) drawArm(a);
+  // tudung di belakang kepala
+  p.ell(tcx, chin + 0.02 * HH, 0.3 * W, 0.13 * HH, shade(body, 0.8), ow);
+  p.gradFill(tp, body, mul(body, SH_CLOTH), light);
+  p.clip(tp, () => {
+    p.band([[tcx - T.a, torsoBot - 0.05 * HH], [tcx + T.a, torsoBot - 0.05 * HH]], shade(body, 0.88), 0.13 * HH, 0);
+    p.poly([[tcx - 0.55 * T.a, torsoBot - 0.5 * HH], [tcx + 0.55 * T.a, torsoBot - 0.5 * HH], [tcx + 0.7 * T.a, torsoBot - 0.14 * HH], [tcx - 0.7 * T.a, torsoBot - 0.14 * HH]], shade(body, 0.93), 2 * u);
+  });
+  p.inkRing(tp, ow, thick);
+  for (const s of [-1, 1]) { // tali tudung
+    const x0 = tcx + s * 7 * u, y0 = chin + 0.1 * HH;
+    p.stroke([[x0, y0], [x0 + s * 1.5 * u, y0 + 0.24 * HH]], 3.4 * u, INK); p.stroke([[x0, y0], [x0 + s * 1.5 * u, y0 + 0.24 * HH]], 1.8 * u, "#f4f4f6");
+    p.ell(x0 + s * 1.5 * u, y0 + 0.27 * HH, 2.6 * u, 3.6 * u, "#f4f4f6", 2 * u);
+  }
+  // kepala
+  const Ah = A + headTilt, [cpx, cpy] = rotAbout([300, chin], R2(A), [300, hipY]);
+  p.rot = Ah ? [R2(Ah), 300, chin, cpx - 300, cpy - chin] : null;
+  const o2 = (o.hat === "boater" || o.hat === "bun") ? { ...o, hat: "hair" } : o;
+  if (o.hat === "bun") hatExtra(p, o, H, 300, hc, light);
+  hatBehind(p, o2, H, 300, hc, light, thick, ow, false);
+  const hp = blobPts(300, hc, H);
+  p.shadedFill(hp, headCol, mul(headCol, [0.9, 0.9, 0.97]), light, H.a);
+  p.inkRing(hp, ow * 1.2, thick);
+  if (o2.hat) hatOn(p, o2, hp, H, 300, hc, light, seed, facing, false);
+  if (o.hat === "boater") hatExtra(p, o, H, 300, hc, light);
+  faceFront(p, 300, hc, W, expr, facing, look, lid, o.hat === "boater", headCol, o.moustache, false);
+  p.rot = A ? [R2(A), 300, hipY] : null;
+  for (const a of arms) if (a.front) drawArm(a);
+  p.rot = null;
+  return { hc, chin, u, W };
+};
+
+/** preset hoodie: warna hoodie + celana */
+export const HOODIE = {
+  biru:   { color: "#1f5fe0", pants: "#2a2a30" },
+  merah:  { color: "#e0463f", pants: "#2f3240" },
+  hijau:  { color: "#2fa35f", pants: "#3a3a44" },
+  kuning: { color: "#f2b82a", pants: "#2f3a55" },
+  ungu:   { color: "#8a5ad0", pants: "#2a2a30" },
+  oranye: { color: "#f08a2c", pants: "#2a3350" },
+};
