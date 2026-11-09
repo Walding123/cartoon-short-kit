@@ -123,7 +123,7 @@ function drawEye(g, { pupil = 0.2, pct = null, spin = 0, rays = -1, glow = 0, la
       g.strokeStyle = '#ffe36a'; g.lineWidth = 8; g.stroke();
     }
   }
-  if (label) txt(g, label, cx, 830, 78, labelCol);
+  if (label) txt(g, label, cx, 120, 78, labelCol);
 }
 function drawFx(g, { kind, t, s = '' }) {
   if (kind === 'sparkle') {
@@ -241,7 +241,7 @@ export const SHOTS = [
   { a: 335, b: 470, fn(f) {
     lit('kosong'); look.flash = 0.8 * (1 - prog(f, 335, 341));
     const pu = backOut(prog(f, 372, 400));
-    eyeShot(f, { pupil: q(0.1 + 0.9 * pu, 50), rays: f > 404 ? q(prog(f, 404, 452), 30) : -1 }, 335, 0.35);
+    eyeShot(f, { pupil: q(0.1 + 0.9 * pu - (f > 440 ? 0.04 * Math.sin((f - 440) * 0.35) : 0), 50), rays: f > 404 ? q(f < 452 ? prog(f, 404, 452) : 0.75 + 0.25 * Math.sin((f - 452) * 0.4), 30) : -1 }, 335, 0.35);
   } },
   // S3b ... tapi belum cukup
   { a: 470, b: 524, fn(f) {
@@ -298,13 +298,13 @@ export const SHOTS = [
     look.flash = 0.8 * (1 - prog(f, 1090, 1096));
     setCam(camKeys([[1090, { p: RT(-0.6, 1.2, 2.3), t: RT(-0.4, 0.45, 0.2), fov: 40 }], [1178, { p: RT(-0.5, 0.95, 1.8), t: RT(-0.4, 0.4, 0.3), fov: 38 }]], f));
     coneMats.forEach((m) => (m.emissiveIntensity = 0.8 * smoother(prog(f, 1134, 1150))));
-    fxAt(0, 'clock', prog(f, 1092, 1178), RT(-0.2, 0.95, 0.9), 0.3, { s: '5 MENIT' });
+    fxAt(0, 'clock', prog(f, 1092, 1178), RT(-0.4, 0.62, 0.95), 0.26, { s: '5 MENIT' });
   } },
   // S7b kursi mulai kelihatan, tapi samar
   { a: 1178, b: 1255, fn(f) {
     cinema.visible = true; lit('samar', 0, null, CN(0, 1, -3));
     look.flash = 1 - prog(f, 1178, 1184);
-    setCam(camKeys([[1178, { p: CN(0.05, 1.2, 0.5), t: CN(0, 0.9, -5), fov: 46 }], [1255, { p: CN(0.05, 1.18, 0.2), t: CN(0, 0.9, -5), fov: 46 }]], f));
+    setCam(camKeys([[1178, { p: CN(0.35, 1.25, 0.5), t: CN(-0.3, 0.9, -5), fov: 46, e: 'lin' }], [1255, { p: CN(-0.25, 1.15, -0.4), t: CN(0.3, 0.95, -5), fov: 44, e: 'lin' }]], f));
     look.cInf = lerp(4, 14, smoother(prog(f, 1222, 1240))); look.focus = 0.6;
   } },
   // S8a sepuluh menit: sel batang mengambil alih
