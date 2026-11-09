@@ -23,6 +23,8 @@ Alur: salin `examples/penisilin` atau `examples/esloli` ke `examples/<nama>/`, u
 | `macro` | `web/world.js` | dunia mikro (bakteri, cawan petri) |
 | `lower`, `facade` | `web/world.js` | ruang bawah tanah dan fasad bangunan |
 | `porch` (teras) | `examples/esloli/story.js` | teras rumah kayu, meja bulat, gelas, pohon. Salin blok `porch` jika perlu |
+| `cinema` (bioskop) | `examples/mata-gelap/story.js` | ruang bioskop: layar, 5 baris kursi merah, lampu tangga, HP bercahaya. Cahaya `lobi/gelap/hitam/samar/abu` (abu = saturasi 0,1) |
+| `retina` | `examples/mata-gelap/story.js` | dunia mikro mata: sel kerucut (merah/hijau/biru) dan sel batang bermata, bola rodopsin ungu, sorot cahaya |
 
 Pilih set dengan `showSets('street')`. Cahaya: `applyLight('day' | 'night' | 'golden', titikFokus)`.
 
@@ -52,6 +54,7 @@ Pilih set dengan `showSets('street')`. Cahaya: `applyLight('day' | 'night' | 'go
 ### Contoh kartun
 - `examples/penisilin`: kisah penisilin (76 dtk).
 - `examples/esloli`: "Es Punya Papa" (47,5 dtk, Indonesia). Pembuka di porch, twist di `room`.
+- `examples/mata-gelap`: "Kenapa mata loading saat gelap" (59 dtk, Indonesia, sains). Kartu mata 2D dengan cincin loading (`drawEye`), kartu jam/label/vitamin di `drawFx`.
 
 ## 3. Bedah benda (folder `bedah/`)
 Gaya bedah flat-toon 3D (three.js) + overlay HTML/SVG, ±20–80 dtk. `$K` = `bedah/`.
