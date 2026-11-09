@@ -8,7 +8,7 @@ const D2R = Math.PI / 180;
 const q = (x, n = 1) => Math.round(x * n) / n;
 
 // ---------- cast ----------
-const fig = (o) => (p, s) => T.figure(p, o, s);
+const fig = (o) => (p, s) => T.hoodie(p, T.asHoodie(o), s);
 const C = {
   flem: new Card(fig(T.FLEMING)), hol: new Card(fig(T.FLEMING_HOLIDAY)), sci2: new Card(fig(T.SCI2)), sci3: new Card(fig(T.SCI3)),
   kid: new Card(fig(T.KIDO)), mom: new Card(fig(T.MOM)),

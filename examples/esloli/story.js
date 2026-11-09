@@ -18,7 +18,7 @@ const FRANK = { jacket: '#4f9a5a', pants: '#3b3f52', boots: '#3a2a22', hat: 'cap
 const DAUGHTER = { jacket: '#f0b84a', pants: '#3b3f52', boots: '#5a3b2a', hat: 'bun', hair: '#5a3a22', dress: '#f0b84a', build: 'kid', skin: '#f1c9a0' };
 const SON = { jacket: '#5aa0c9', pants: '#e8a23a', boots: '#f4f1ea', hat: 'hair', hair: '#5a3a22', build: 'kid', skin: '#f1c9a0' };
 const FRIEND2 = { jacket: '#9a7ac9', pants: '#3b3f52', boots: '#2b2222', hat: 'hair', hair: '#2b2222', build: 'kid', skin: '#c99067' };
-const fig = (o) => (p, s) => T.figure(p, o, s);
+const fig = (o) => (p, s) => T.hoodie(p, T.asHoodie(o), s);
 const C = {
   fk: new Card(fig(FRANK_KID)), fa: new Card(fig(FRANK)), dau: new Card(fig(DAUGHTER)), son: new Card(fig(SON)),
   fr1: new Card(fig(T.FOLK[3])), fr2: new Card(fig(FRIEND2)),

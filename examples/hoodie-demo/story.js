@@ -1,16 +1,16 @@
-// Demo karakter stickman berisi berwarna (lihat KATALOG.md > Tokoh > Stickman)
+// Demo tokoh hoodie (lihat KATALOG.md > Tokoh hoodie)
 import { setCam, camKeys, applyLight, look, idle, blinkAt, Card } from './engine.js';
 import * as T from './toon.js';
 import { showSets } from './world.js';
 
 export const TOTAL = 90;
 const RW = (x, y, z) => [x + 100, y, z + 100];
-const stick = (o) => new Card((p, s) => T.hoodie(p, o, s));
+const hood = (o) => new Card((p, s) => T.hoodie(p, o, s));
 const C = [
-  stick({ ...T.HOODIE.merah, shoes: '#e0463f' }),
-  stick({ ...T.HOODIE.biru }),
-  stick({ ...T.HOODIE.hijau, build: 'kid' }),
-  stick({ ...T.HOODIE.kuning, shoes: '#f2b82a' }),
+  hood({ ...T.HOODIE.merah, shoes: '#e0463f' }),
+  hood({ ...T.HOODIE.biru }),
+  hood({ ...T.HOODIE.hijau, build: 'kid' }),
+  hood({ ...T.HOODIE.kuning, shoes: '#f2b82a' }),
 ];
 const place = (card, pos, state, f, seed) => { const id = idle(f, seed); card.set({ seed, blink: blinkAt(f, seed), ...state }).place(pos[0], pos[1], pos[2], { bob: id.bob, tilt: id.tilt }); };
 
