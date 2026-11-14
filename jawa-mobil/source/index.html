@@ -1,0 +1,260 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<title>Jawa dan Satu Mobil per Orang</title>
+<script type="importmap">{"imports":{"three":"/node_modules/three/build/three.module.js","three/addons/":"/node_modules/three/examples/jsm/"}}</script>
+<style>
+@font-face{font-family:Barlow;src:url(fonts/Barlow-500.woff2) format('woff2');font-weight:500}
+@font-face{font-family:Barlow;src:url(fonts/Barlow-600.woff2) format('woff2');font-weight:600}
+html,body{margin:0;background:#05080c;overflow:hidden}
+canvas{position:absolute;left:0;top:0;width:1080px;height:1920px}
+</style></head>
+<body>
+<script type="module">
+// "Jawa dan satu mobil per orang": 3D Map Explainer, 9:16, 1080x1920. One timeline, film time f = voice time + LEAD.
+import * as THREE from 'three';
+import { Line2 } from 'three/addons/lines/Line2.js';
+import { LineMaterial } from 'three/addons/lines/LineMaterial.js';
+import { LineGeometry } from 'three/addons/lines/LineGeometry.js';
+import { clamp, lerp, seg, ss, eo, eio, track } from '/core/lib.js';
+
+const Wd = 1080, Ht = 1920, LEAD = 1.5, DUR = 55.3, EX = 4;      // vertical exaggeration x4
+const AMB = '#FFA63D', AMBC = '#FFC36B', TEAL = '#2FA3B0', INK = '#F6EEE0';
+const J = u => fetch(u).then(r => r.json()), B = u => fetch(u).then(r => r.arrayBuffer());
+const [meta, hraw] = await Promise.all([J('assets/meta.json'), B('assets/height.bin')]);
+const H = new Float32Array(hraw), { GW, GH, bbox, kmlon, kmlat, width_km: WK, height_km: HK } = meta;
+
+const xz = (lon, lat) => [(lon - bbox[0]) * kmlon - WK / 2, (bbox[3] - lat) * kmlat - HK / 2];
+function hAt(X, Z) {
+  const gx = clamp((X + WK / 2) / WK, 0, 1) * (GW - 1), gz = clamp((Z + HK / 2) / HK, 0, 1) * (GH - 1);
+  const x0 = Math.min(GW - 2, Math.floor(gx)), z0 = Math.min(GH - 2, Math.floor(gz)), fx = gx - x0, fz = gz - z0;
+  const a = H[z0 * GW + x0], b = H[z0 * GW + x0 + 1], c = H[(z0 + 1) * GW + x0], d = H[(z0 + 1) * GW + x0 + 1];
+  return (a * (1 - fx) + b * fx) * (1 - fz) + (c * (1 - fx) + d * fx) * fz;
+}
+const yOf = h => Math.max(h, 0) / 1000 * EX;
+const geo = (lon, lat, lift = 0) => { const [X, Z] = xz(lon, lat); return new THREE.Vector3(X, yOf(hAt(X, Z)) + lift, Z); };
+
+// ---------- renderers: globe (bottom) and map (top, cross-faded) ----------
+function mk(alpha) { const r = new THREE.WebGLRenderer({ antialias: true, alpha, preserveDrawingBuffer: true }); r.setPixelRatio(1); r.setSize(Wd, Ht); r.setClearColor(0x05080c, alpha ? 0 : 1); document.body.appendChild(r.domElement); return r; }
+const rG = mk(false), rM = mk(false); rM.setClearColor(0x0b1e2b, 1);
+const ov = document.createElement('canvas'); ov.width = Wd; ov.height = Ht; document.body.appendChild(ov);
+const g2 = ov.getContext('2d');
+const texLoader = new THREE.TextureLoader(), loadTex = u => new Promise(r => texLoader.load(u, t => r(t)));
+const [albedo, worldTex] = await Promise.all([loadTex('assets/albedo.jpg'), loadTex('assets/world.jpg')]);
+albedo.colorSpace = worldTex.colorSpace = THREE.SRGBColorSpace; albedo.anisotropy = 8;
+const dotTex = (() => { const c = document.createElement('canvas'); c.width = c.height = 64; const x = c.getContext('2d'); const g = x.createRadialGradient(32, 32, 0, 32, 32, 32); g.addColorStop(0, '#fff'); g.addColorStop(.25, 'rgba(255,255,255,.9)'); g.addColorStop(1, 'rgba(255,255,255,0)'); x.fillStyle = g; x.fillRect(0, 0, 64, 64); return new THREE.CanvasTexture(c); })();
+const res = new THREE.Vector2(Wd, Ht);
+
+function lineMat(color, w, op) { const m = new LineMaterial({ color, linewidth: w, transparent: true, opacity: op, blending: THREE.AdditiveBlending, depthWrite: false }); m.resolution.copy(res); return m; }
+function glowLine(pts, color, w) {   // two layered lines: soft wide + bright core; returns {setProg}
+  const arr = []; pts.forEach(p => arr.push(p.x, p.y, p.z));
+  const mk1 = (mat) => { const g = new LineGeometry(); g.setPositions(arr); const l = new Line2(g, mat); l.frustumCulled = false; return l; };
+  const wide = mk1(lineMat(color, w * 4, .22)), core = mk1(lineMat(color, w, .95));
+  const grp = new THREE.Group(); grp.add(wide, core);
+  const n = pts.length - 1;
+  grp.setProg = p => { const c = Math.max(0, Math.min(n, Math.round(p * n))); wide.geometry.instanceCount = c; core.geometry.instanceCount = c; grp.visible = c > 0; };
+  grp.setProg(0); return grp;
+}
+
+// =============== MAP WORLD ===============
+const sM = new THREE.Scene(); sM.fog = new THREE.Fog(0x0b1e2b, 2200, 6500);
+const camM = new THREE.PerspectiveCamera(38, Wd / Ht, 1, 60000);
+{
+  const seg_x = 735, seg_z = 250, g = new THREE.PlaneGeometry(WK, HK, seg_x, seg_z); g.rotateX(-Math.PI / 2);
+  const p = g.attributes.position;
+  for (let i = 0; i < p.count; i++) p.setY(i, yOf(hAt(p.getX(i), p.getZ(i))));
+  g.computeVertexNormals();
+  const terr = new THREE.Mesh(g, new THREE.MeshLambertMaterial({ map: albedo })); sM.add(terr);
+  const far = new THREE.Mesh(new THREE.PlaneGeometry(60000, 60000).rotateX(-Math.PI / 2), new THREE.MeshLambertMaterial({ color: '#0a1d2a' })); far.position.y = -0.4; sM.add(far);
+  const sun = new THREE.DirectionalLight(0xffe2b8, 2.6); sun.position.set(-1, .38, .55).multiplyScalar(1000); sM.add(sun);
+  sM.add(new THREE.HemisphereLight(0x9fb8c8, 0x2a2018, 1.15));
+}
+// cities
+const CITIES = [['Jakarta', 106.85, -6.20, 1], ['Bandung', 107.61, -6.92, .8], ['Semarang', 110.42, -6.97, .8], ['Yogyakarta', 110.37, -7.80, .7], ['Surabaya', 112.75, -7.25, 1]];
+const cityPts = CITIES.map(c => ({ name: c[0], p: geo(c[1], c[2], 6), s: c[3] }));
+const cityDots = cityPts.map(c => { const s = new THREE.Sprite(new THREE.SpriteMaterial({ map: dotTex, color: AMBC, blending: THREE.AdditiveBlending, transparent: true, depthWrite: false, depthTest: false })); s.position.copy(c.p); s.scale.setScalar(0.01); sM.add(s); return s; });
+// toll route (schematic): Merak - Jakarta - Cikampek - Cirebon - Semarang - Solo - Surabaya - Probolinggo
+const TOLL = [[106.00, -5.93], [106.45, -6.18], [106.85, -6.22], [107.45, -6.38], [108.20, -6.62], [108.55, -6.73], [109.15, -6.88], [110.42, -6.98], [110.82, -7.55], [111.45, -7.55], [112.05, -7.45], [112.75, -7.28], [113.20, -7.75]];
+const tollCurve = new THREE.CatmullRomCurve3(TOLL.map(t => geo(t[0], t[1], 0)));
+const tollPts = tollCurve.getSpacedPoints(400).map(v => { const h = yOf(hAt(v.x, v.z)); return new THREE.Vector3(v.x, h + 3.5, v.z); });
+const tollLine = glowLine(tollPts, AMB, 3); sM.add(tollLine);
+const NCAR = 90, carPos = new Float32Array(NCAR * 3);
+const carGeom = new THREE.BufferGeometry(); carGeom.setAttribute('position', new THREE.BufferAttribute(carPos, 3));
+const cars = new THREE.Points(carGeom, new THREE.PointsMaterial({ size: 7, sizeAttenuation: false, map: dotTex, color: 0xfff3dc, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending })); cars.frustumCulled = false; sM.add(cars);
+// pillars: 1 slab = 10 million cars
+const SLAB = 10, GAP = 1.2, FOOT = 34, PZ = 255;
+function pillar(x, n, frac, color) {
+  const grp = new THREE.Group(), slabs = [];
+  const mat = new THREE.MeshBasicMaterial({ color, transparent: true, opacity: .92 });
+  const em = new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: .55 });
+  const count = Math.ceil(n);
+  for (let i = 0; i < count; i++) {
+    const hh = (i === count - 1 && frac < 1 ? frac : 1) * SLAB;
+    const geom = new THREE.BoxGeometry(FOOT, hh, FOOT); geom.translate(0, hh / 2, 0);
+    const m = new THREE.Mesh(geom, mat); m.add(new THREE.LineSegments(new THREE.EdgesGeometry(geom), em));
+    m.position.set(0, i * (SLAB + GAP), 0); m.scale.y = 0.001; grp.add(m); slabs.push(m);
+  }
+  grp.position.set(x, 1, PZ); grp.visible = false; sM.add(grp); grp.slabs = slabs; return grp;
+}
+const pilTeal = pillar(-55, 1.64, .64, 0x2FA3B0), pilAmb = pillar(55, 15.8, .8, 0xFFA63D);
+// squares: 1,975 km2 parking (44.4 km) vs Jakarta 661 km2 (25.7 km), floating flat
+function sq(cx, cz, s, color, fill) {
+  const grp = new THREE.Group(), y = 22, h = s / 2;
+  const pts = [[-h, -h], [h, -h], [h, h], [-h, h], [-h, -h]].map(([a, b]) => new THREE.Vector3(cx + a, y, cz + b));
+  grp.add(glowLine(pts, color, 3)); grp.children[0].setProg(1);
+  const f = new THREE.Mesh(new THREE.PlaneGeometry(s, s).rotateX(-Math.PI / 2), new THREE.MeshBasicMaterial({ color, transparent: true, opacity: fill, depthWrite: false })); f.position.set(cx, y - .2, cz); grp.add(f);
+  grp.fill = f; grp.visible = false; sM.add(grp); return grp;
+}
+const sqAmb = sq(52, -10, 44.4, AMB, .32), sqJ = [sq(-14, -10, 25.7, TEAL, .4), sq(-41, -10, 25.7, TEAL, .4), sq(-68, -10, 25.7, TEAL, .4)];
+
+// =============== GLOBE WORLD ===============
+const R = 6371, sG = new THREE.Scene(), camG = new THREE.PerspectiveCamera(30, Wd / Ht, 100, 140000);
+const gg = new THREE.Group(); sG.add(gg);
+gg.add(new THREE.Mesh(new THREE.SphereGeometry(R, 128, 96), new THREE.MeshLambertMaterial({ map: worldTex })));
+const ll2v = (lon, lat, r = R) => { const a = lon * Math.PI / 180, b = lat * Math.PI / 180; return new THREE.Vector3(r * Math.cos(b) * Math.cos(a), r * Math.sin(b), -r * Math.cos(b) * Math.sin(a)); };
+const sunG = new THREE.DirectionalLight(0xfff0dc, 2.5); sunG.position.copy(ll2v(40, 22, 40000)); sG.add(sunG); sG.add(new THREE.AmbientLight(0x2a3a4e, 2.4));
+{ // atmosphere rim
+  const m = new THREE.ShaderMaterial({ transparent: true, side: THREE.BackSide, blending: THREE.AdditiveBlending, depthWrite: false,
+    vertexShader: 'varying vec3 n;varying vec3 v;void main(){n=normalize(normalMatrix*normal);vec4 mv=modelViewMatrix*vec4(position,1.);v=-mv.xyz;gl_Position=projectionMatrix*mv;}',
+    fragmentShader: 'varying vec3 n;varying vec3 v;void main(){float f=pow(clamp(.62-dot(normalize(n),normalize(v)),0.,1.),3.);gl_FragColor=vec4(.35,.62,.95,1.)*f*1.6;}' });
+  sG.add(new THREE.Mesh(new THREE.SphereGeometry(R * 1.045, 96, 64), m));
+  const sp = []; let s = 7; const rnd = () => (s = (s * 16807) % 2147483647) / 2147483647;
+  for (let i = 0; i < 1400; i++) { const a = rnd() * 6.283, b = Math.acos(2 * rnd() - 1), r = 90000; sp.push(r * Math.sin(b) * Math.cos(a), r * Math.cos(b), r * Math.sin(b) * Math.sin(a)); }
+  const gs = new THREE.BufferGeometry(); gs.setAttribute('position', new THREE.Float32BufferAttribute(sp, 3));
+  sG.add(new THREE.Points(gs, new THREE.PointsMaterial({ size: 2, sizeAttenuation: false, color: 0xcfd8e8, transparent: true, opacity: .8 })));
+}
+const JAVA = [110.0, -7.3];
+const javaDot = new THREE.Sprite(new THREE.SpriteMaterial({ map: dotTex, color: AMBC, blending: THREE.AdditiveBlending, transparent: true, depthWrite: false })); javaDot.position.copy(ll2v(JAVA[0], JAVA[1], R * 1.004)); gg.add(javaDot);
+// 790,000 km of bumper-to-bumper cars = ~19.7 turns around the Earth: a helix of 20 turns
+const helix = []; for (let i = 0; i <= 1200; i++) { const s = i / 1200; helix.push(ll2v(s * 20 * 360, lerp(-68, 68, s), R * 1.012)); }
+const helixLine = glowLine(helix, AMB, 2.2); gg.add(helixLine);
+const javaLit = [[-6.0, 105.5], [-6.5, 108], [-7.2, 110], [-7.5, 112], [-8.0, 114]].map(([la, lo]) => ll2v(lo, la, R * 1.006));
+const javaLine = glowLine(javaLit, AMB, 3.2); gg.add(javaLine); javaLine.setProg(1);
+
+// =============== TIMELINE ===============
+const mapOp = f => Math.max(ss(seg(f, 4.8, 6.3)) * (1 - ss(seg(f, 25.1, 26.6))), ss(seg(f, 33.0, 34.4)) * (1 - ss(seg(f, 49.6, 51.0))));
+const camMapTrack = track([
+  [4.8, [-200, 1700, 1100, 0, 0, 0, 38]], [8, [-330, 760, 560, -120, 0, -20, 38]], [11, [-170, 520, 470, 60, 0, -10, 38]], [14.5, [60, 640, 560, 0, 20, 70, 38]],
+  [15.5, [0, 150, 760, 0, 70, 255, 38]], [20, [0, 175, 740, 0, 85, 255, 38]], [25.6, [0, 230, 720, 0, 105, 255, 38]],
+]);
+const uTrack = track([[33, [0.0]], [34.4, [0.03]], [42.6, [0.94]]]);
+const camTopTrack = track([[42.4, [60, 1100, 360, -10]], [44.2, [0, 520, 40, -10]], [49.6, [0, 480, 20, -10]]]);
+function setMapCam(f) {
+  if (f < 26.6) { const v = camMapTrack(f); camM.fov = v[6]; camM.position.set(v[0], v[1], v[2]); camM.lookAt(v[3], v[4], v[5]); }
+  else if (f < 42.5) {
+    const u = uTrack(f)[0]; const P = tollCurve.getPointAt(clamp(u - .06, 0, 1)), Q = tollCurve.getPointAt(clamp(u + .07, 0, 1));
+    camM.fov = 38; camM.position.set(P.x - 30, 55, P.z + 120); camM.lookAt(Q.x, 6, Q.z);
+  } else if (f < 51) {
+    const v = camTopTrack(f); camM.fov = 38; camM.position.set(v[0], v[1], v[2] + 1); camM.lookAt(v[0] * .2, 0, v[3]);
+  }
+  camM.updateProjectionMatrix(); camM.updateMatrixWorld();
+}
+const gHeight = track([[0, [40000]], [3, [14000]], [5.6, [2800]], [24, [3000]], [26.6, [34000]], [34, [34000]], [49, [14000]], [53, [30000]], [55.3, [32000]]]);
+function setGlobeCam(f) {
+  const drift = f * 0.9;                               // slow orbit, deg
+  let lon, lat;
+  if (f < 7) { lon = JAVA[0] + 8 * (1 - ss(seg(f, 0, 6))); lat = -7 + 14 * (1 - ss(seg(f, 0, 6))); }
+  else if (f < 34) { lon = lerp(JAVA[0] - 10, JAVA[0] + 70, ss(seg(f, 25, 34))); lat = 14; }
+  else { lon = lerp(JAVA[0] + 15, JAVA[0], ss(seg(f, 48, 53))); lat = lerp(6, -4, ss(seg(f, 48, 53))); }
+  lon += drift * .05;
+  const h = gHeight(f)[0]; const d = ll2v(lon, lat, 1);
+  camG.position.copy(d.multiplyScalar(R + h)); camG.up.set(0, 1, 0); camG.lookAt(0, 0, 0); camG.updateProjectionMatrix(); camG.updateMatrixWorld();
+}
+
+// =============== TEXT ===============
+const VO = t => t + LEAD;
+const SUBS = [[0, 2.64, 'Pulau Jawa hanya 7% daratan Indonesia,'], [3.12, 5.96, 'tapi di sinilah tinggal lebih dari separuh penduduknya,'], [6.22, 8.42, 'sekitar 158 juta orang.'], [8.9, 12.46, 'Sekarang bayangkan, setiap orang di pulau ini punya satu mobil.'], [13.02, 17.12, 'Hari ini, di seluruh Indonesia hanya ada sekitar 16 juta mobil penumpang.'], [17.48, 19.96, 'Itu artinya, baru 6 dari 100 orang.'], [20.46, 24.02, 'Di Jawa saja, jumlahnya akan melonjak hampir 10 kali lipat.'], [24.02, 25.84, 'Kalau semua mobil itu berbaris,'], [26.14, 29.88, 'bumper ke bumper, panjangnya sekitar 790 ribu kilometer,'], [30.44, 32.14, 'hampir 20 kali keliling bumi.'], [32.58, 36.74, 'Padahal, seluruh jalan tol di Jawa hanya 1.782 kilometer.'], [37.42, 40.84, 'Setiap satu kilometernya, harus menampung hampir 90 ribu mobil.'], [41.32, 45.64, 'Dan saat semuanya berhenti, mereka butuh tempat parkir seluas 2.000 kilometer persegi,'], [46.02, 47.22, '3 kali luas Jakarta.']].map(s => [VO(s[0]) - .05, VO(s[1]) + .25, s[2]]);
+// big numbers: [from, to (vo s), big, small, color]
+const BIG = [[0.8, 2.9, '7%', 'luas daratan Indonesia', INK], [4.0, 6.3, '±56%', 'penduduk Indonesia ada di Jawa', AMBC], [6.4, 12.8, '158 juta', 'penduduk Jawa · ±56% dari 282 juta (Kemendagri, 2024)', AMBC, 'count'], [13.4, 17.4, '16 juta', 'mobil penumpang, seluruh Indonesia · BPS', '#5fd0dc'], [17.6, 20.4, '6 dari 100', 'orang punya mobil (nasional, hitungan)', '#5fd0dc'], [20.6, 24.6, '158 juta', 'jika 1 mobil per orang · ≈ 10× lipat (hitungan)', AMBC], [27.0, 30.2, '790.000 km', 'barisan mobil bumper ke bumper · hitungan', AMBC], [30.5, 32.6, '≈ 20×', 'keliling bumi (40.075 km)', AMBC], [32.8, 37.1, '1.782 km', 'jalan tol di Jawa · PUPR, Jan 2024 · jalur skematis', AMBC], [37.5, 41.2, '≈ 89.000', 'mobil untuk setiap 1 km tol (hitungan)', AMBC], [44.0, 46.2, '2.000 km²', 'lahan parkir · 12,5 m² per mobil (hitungan)', AMBC], [46.0, 48.0, '3× Jakarta', 'Jakarta ±661 km²', '#5fd0dc']].map(b => [VO(b[0]), VO(b[1]), b[2], b[3], b[4], b[5]]);
+const FONT = (w, s) => `${w} ${s}px Barlow, 'Arial Narrow', sans-serif`;
+function wrap(x, text, maxW) { const w = text.split(' '), lines = []; let cur = ''; for (const a of w) { const t = cur ? cur + ' ' + a : a; if (x.measureText(t).width > maxW && cur) { lines.push(cur); cur = a; } else cur = t; } lines.push(cur); return lines; }
+const lab = (cam, v) => { const p = v.clone().project(cam); return [(p.x * .5 + .5) * Wd, (-p.y * .5 + .5) * Ht, p.z]; };
+function drawOverlay(f, mo) {
+  g2.clearRect(0, 0, Wd, Ht); g2.textBaseline = 'alphabetic';
+  // atmosphere haze during the dissolves
+  const hz = Math.max(Math.sin(Math.PI * seg(f, 4.8, 6.3)), Math.sin(Math.PI * seg(f, 25.1, 26.6)), Math.sin(Math.PI * seg(f, 33.0, 34.4)), Math.sin(Math.PI * seg(f, 49.6, 51.0)));
+  if (hz > 0) { g2.fillStyle = `rgba(120,170,215,${hz * .22})`; g2.fillRect(0, 0, Wd, Ht); }
+  // vignette
+  const vg = g2.createRadialGradient(Wd / 2, Ht / 2, Ht * .35, Wd / 2, Ht / 2, Ht * .72); vg.addColorStop(0, 'rgba(0,0,0,0)'); vg.addColorStop(1, 'rgba(0,0,0,.45)'); g2.fillStyle = vg; g2.fillRect(0, 0, Wd, Ht);
+  // city labels
+  if (mo > .5 && f > 6.8 && f < 15.5) {
+    g2.font = FONT(600, 34); g2.textAlign = 'left';
+    cityPts.forEach((c, i) => { const a = ss(seg(f, VO(6.6 + i * .45), VO(7.1 + i * .45))) * (1 - ss(seg(f, 14.2, 15.2))); if (a <= 0) return; const [x, y, z] = lab(camM, c.p); if (z > 1) return; g2.globalAlpha = a; g2.fillStyle = INK; g2.fillText(c.name.toUpperCase(), x + 18, y + 8); g2.globalAlpha = 1; });
+  }
+  // pillar labels
+  if (f > 15.5 && f < 25.4) {
+    g2.textAlign = 'center';
+    const lt = lab(camM, new THREE.Vector3(-55, Math.ceil(1.64) * (SLAB + GAP) + 30, PZ)), la = lab(camM, new THREE.Vector3(55, 16 * (SLAB + GAP) + 30, PZ));
+    g2.font = FONT(600, 38); g2.fillStyle = '#5fd0dc'; g2.globalAlpha = ss(seg(f, VO(14), VO(15))); g2.fillText('16 juta', lt[0], lt[1]);
+    g2.fillStyle = AMBC; g2.globalAlpha = ss(seg(f, VO(21.2), VO(22.2))); g2.fillText('158 juta', la[0], Math.max(la[1], 460)); g2.globalAlpha = 1;
+    g2.font = FONT(500, 26); g2.fillStyle = 'rgba(246,238,224,.85)'; g2.fillText('1 lempeng = 10 juta mobil · skala sama', Wd / 2, 410);
+  }
+  // squares labels
+  if (f > 44 && f < 49.6) {
+    g2.textAlign = 'center'; g2.font = FONT(600, 30);
+    const la = lab(camM, new THREE.Vector3(52, 22, 12)), lj = lab(camM, new THREE.Vector3(-41, 22, 16));
+    g2.globalAlpha = ss(seg(f, VO(44.4), VO(45.2))); g2.fillStyle = AMBC; g2.fillText('PARKIR 2.000 km²', la[0], la[1] + 40);
+    g2.globalAlpha = ss(seg(f, VO(46.2), VO(46.8))); g2.fillStyle = '#5fd0dc'; g2.fillText('3 × JAKARTA', lj[0], lj[1] + 40); g2.globalAlpha = 1;
+  }
+  // big number (top)
+  g2.textAlign = 'center';
+  for (const b of BIG) {
+    const a = ss(seg(f, b[0], b[0] + .35)) * (1 - ss(seg(f, b[1] - .3, b[1])));
+    if (a <= 0) continue;
+    let txt = b[2];
+    if (b[5] === 'count') { const k = ss(seg(f, b[0], b[0] + 1.6)); txt = Math.round(lerp(0, 158, k)) + ' juta'; }
+    g2.globalAlpha = a; g2.fillStyle = b[4]; g2.font = FONT(600, 150); g2.fillText(txt, Wd / 2, 270 - (1 - a) * 20);
+    g2.fillStyle = 'rgba(246,238,224,.92)'; g2.font = FONT(500, 38); g2.fillText(b[3], Wd / 2, 330); g2.globalAlpha = 1;
+  }
+  // subtitles
+  const sub = SUBS.find(s => f >= s[0] && f <= s[1]);
+  if (sub && f < VO(50.7)) {
+    const gr = g2.createLinearGradient(0, 1480, 0, 1760); gr.addColorStop(0, 'rgba(0,0,0,0)'); gr.addColorStop(1, 'rgba(0,0,0,.55)'); g2.fillStyle = gr; g2.fillRect(0, 1480, Wd, 280);
+    g2.font = FONT(600, 58); const lines = wrap(g2, sub[2], 940), a = ss(seg(f, sub[0], sub[0] + .18));
+    g2.globalAlpha = a; g2.textAlign = 'center'; g2.fillStyle = INK; lines.forEach((l, i) => g2.fillText(l, Wd / 2, 1660 - (lines.length - 1 - i) * 70)); g2.globalAlpha = 1;
+  }
+  // end card
+  const ea = ss(seg(f, VO(47.9), VO(48.7)));
+  if (ea > 0) { g2.fillStyle = `rgba(5,8,12,${ea * .55})`; g2.fillRect(0, 700, Wd, 420); g2.globalAlpha = ea; g2.fillStyle = INK; g2.font = FONT(600, 92); g2.fillText('Jawa tidak kekurangan mobil.', Wd / 2, 880); g2.fillStyle = AMBC; g2.fillText('Jawa kekurangan ruang.', Wd / 2, 990); g2.globalAlpha = 1; }
+  // credits
+  g2.textAlign = 'left'; g2.font = FONT(500, 21); g2.fillStyle = 'rgba(246,238,224,.62)';
+  g2.fillText('Skenario 1 mobil per orang · angka bertanda "hitungan" dihitung dari data: Kemendagri 2024, BPS, Kementerian PUPR.', 36, 1838);
+  g2.fillText('Peta: AWS Terrain Tiles · Sentinel-2 cloudless 2016 © EOX (CC BY 4.0) · vertikal ×4 · jalur tol skematis', 36, 1870);
+}
+
+// =============== RENDER ===============
+const tmpV = new THREE.Vector3();
+window.DUR = DUR;
+window.render = f => {
+  f = clamp(f, 0, DUR);
+  // globe
+  setGlobeCam(f); gg.rotation.y = 0;
+  const hp = ss(seg(f, VO(24.4), VO(31.4)));
+  helixLine.setProg(hp); javaDot.scale.setScalar(clamp(gHeight(f)[0] * .07, 130, 300) * (1 + .12 * Math.sin(f * 4))); javaDot.material.opacity = ss(seg(f, 0.5, 2)); { const k = 1 - .62 * ss(seg(f, 49, 51)); helixLine.children[0].material.opacity = .22 * k; helixLine.children[1].material.opacity = .95 * k; }
+  javaLine.visible = f > 47;
+  rG.render(sG, camG);
+  // map
+  const mo = mapOp(f); rM.domElement.style.opacity = mo.toFixed(3);
+  if (mo > 0.01) {
+    setMapCam(f);
+    cityDots.forEach((d, i) => { const k = ss(seg(f, VO(6.6 + i * .45), VO(7.6 + i * .45))) * (1 - ss(seg(f, 14.5, 15.5))); d.scale.setScalar(.01 + k * (42 + 7 * Math.sin(f * 3 + i)) * cityPts[i].s); });
+    // pillars
+    const growT = (p, from, step, f) => p.slabs.forEach((s, i) => { s.scale.y = Math.max(.001, eo(seg(f, from + i * step, from + i * step + .35))); });
+    pilTeal.visible = f > VO(13.6) && f < 26; growT(pilTeal, VO(13.8), .5, f);
+    pilAmb.visible = f > VO(20.4) && f < 26; growT(pilAmb, VO(20.8), .2, f);
+    // toll
+    const tp = ss(seg(f, VO(32.4), VO(35.8))); tollLine.setProg(f < 33 ? 0 : tp);
+    tollLine.visible = f > 33 && f < 43;
+    const dens = ss(seg(f, VO(33), VO(40))); const nVis = Math.round(NCAR * (.15 + .85 * dens));
+    for (let i = 0; i < NCAR; i++) { const u = ((i / NCAR) + f * .035 * (1 + .3 * (i % 3))) % 1 * tp; const p = tollCurve.getPointAt(clamp(u, 0, 1)); carPos[i * 3] = p.x; carPos[i * 3 + 1] = yOf(hAt(p.x, p.z)) + 6; carPos[i * 3 + 2] = p.z + (i % 2 ? 1.2 : -1.2); }
+    carGeom.attributes.position.needsUpdate = true; carGeom.setDrawRange(0, nVis); cars.visible = f > 33 && f < 43;
+    // squares
+    sqAmb.visible = f > VO(44.2) && f < 50; sqAmb.fill.material.opacity = .32 * ss(seg(f, VO(44.4), VO(45.4)));
+    sqJ.forEach((s, i) => { s.visible = f > VO(46.0 + i * .35) && f < 50; });
+    rM.render(sM, camM);
+  }
+  drawOverlay(f, mo);
+};
+await document.fonts.load('600 40px Barlow'); await document.fonts.load('500 40px Barlow');
+window.READY = true;
+</script>
+</body></html>
