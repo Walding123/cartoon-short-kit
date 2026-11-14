@@ -105,6 +105,14 @@ const drawProp = (p, kind, hx, hy, u, side, f) => {
       p.poly([[hx - 11 * u, hy - 18 * u], [hx + 13 * u, hy - 21 * u], [hx + 13.5 * u, hy - 12 * u], [hx - 10.5 * u, hy - 9 * u]], "#e2504a", 1.5 * u);
       p.dot(hx, hy, 5.5 * u);
       break;
+    case "phone": case "phoneOff": { // HP tegak di tangan; phone = layar peta biru + titik, phoneOff = layar gelap
+      const w = 15 * u, top = hy - 52 * u, bot = hy + 6 * u;
+      p.poly([[hx - w, top], [hx + w, top], [hx + w, bot], [hx - w, bot]], "#1c2030", 3.4 * u);
+      p.poly([[hx - w + 3.5 * u, top + 5 * u], [hx + w - 3.5 * u, top + 5 * u], [hx + w - 3.5 * u, bot - 5 * u], [hx - w + 3.5 * u, bot - 5 * u]], kind === "phone" ? "#49a8ea" : "#2a3040", 0);
+      if (kind === "phone") p.ell(hx, (top + bot) / 2, 4.4 * u, 4.4 * u, "#1e6cff", 1.6 * u);
+      p.dot(hx, hy, 5.5 * u);
+      break;
+    }
     default: p.dot(hx, hy, 5.5 * u);
   }
 };

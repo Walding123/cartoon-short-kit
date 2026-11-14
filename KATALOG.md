@@ -24,6 +24,8 @@ Alur: salin `examples/penisilin` atau `examples/esloli` ke `examples/<nama>/`, u
 | `lower`, `facade` | `web/world.js` | ruang bawah tanah dan fasad bangunan |
 | `porch` (teras) | `examples/esloli/story.js` | teras rumah kayu, meja bulat, gelas, pohon. Salin blok `porch` jika perlu |
 | `cinema` (bioskop) | `examples/mata-gelap/story.js` | ruang bioskop: layar, 5 baris kursi merah, lampu tangga, HP bercahaya. Cahaya `lobi/gelap/hitam/samar/abu` (abu = saturasi 0,1) |
+| `laut` (perahu) | `examples/gps/story.js` | laut berombak (air tanpa garis tepi), buih, awan, perahu kayu merah + motor tempel, cincin penanda di air. Cahaya `laut/senja` |
+| `angkasa` | `examples/gps/story.js` | bumi bertekstur kanvas, bintang, 6 bidang orbit x 5 satelit (`makeSat`), satelit besar + cincin sinyal (`emit`), garis jarak |
 | `retina` | `examples/mata-gelap/story.js` | dunia mikro mata: sel kerucut (merah/hijau/biru) dan sel batang bermata, bola rodopsin ungu, sorot cahaya |
 
 Pilih set dengan `showSets('street')`. Cahaya: `applyLight('day' | 'night' | 'golden', titikFokus)`.
@@ -35,7 +37,7 @@ Pilih set dengan `showSets('street')`. Cahaya: `applyLight('day' | 'night' | 'go
 `neutral`, `smile`, `smile_closed`, `grin`, `laugh`, `whistle`, `shock`, `nervous`, `stern`, `lick`.
 
 ### Properti (`propR` / `propL`)
-`popsicle` (es loli oranye), `popsicleRed` (merah), `packet` (bungkus bubuk soda), `magnifier`, `suitcase`, `dishMold`, `bottle`, `flask`, `dish`, `medal`.
+`popsicle` (es loli oranye), `popsicleRed` (merah), `packet` (bungkus bubuk soda), `magnifier`, `suitcase`, `dishMold`, `bottle`, `flask`, `dish`, `medal`, `phone` (HP layar peta + titik biru), `phoneOff` (layar gelap).
 
 ### Tokoh (hanya hoodie)
 **Satu-satunya tokoh manusia: `T.hoodie`** (bagian di bawah). Ganti warna hoodie, celana, dan sepatu per peran lewat `T.HOODIE.*`. `T.figure` dan `T.stickman` sudah dihapus. Data tokoh lama (`T.FOLK[0..3]`, `T.FLEMING`, dll.) dipakai lewat `T.hoodie(p, T.asHoodie(o), s)`.
@@ -44,6 +46,9 @@ Pilih set dengan `showSets('street')`. Cahaya: `applyLight('day' | 'night' | 'go
 `T.hoodie(p, opsi, s)`: kepala bulat putih, hoodie tebal (tudung, tali, kantong), tangan putih besar (pose `thumb` ada ibu jari), celana berlipatan, sneakers bersol putih. Pose, ekspresi, properti, `mode` (stand/walk/sit) seperti daftar di atas. Opsi: `color` (hoodie), `pants`, `shoes`, `cuff`, `head`, `hand`, `build: 'kid'`, plus `hat`/`moustache`. Preset: `T.HOODIE.biru | merah | hijau | kuning | ungu | oranye`. Contoh di `examples/hoodie-demo/` (`new Card((p, s) => T.hoodie(p, o, s))`).
 
 ### Jebakan kartun yang sudah terjadi
+- Label/fx yang ditaruh di koordinat dunia sering keluar layar di close-up. Pakai `hud()` dari `examples/gps`.
+- Air berombak dengan garis tepi menimbulkan garis-garis kasar di cakrawala. Beri bidang air `nd: null`.
+- `pill()` dengan teks INK dan outline INK jadi tak terbaca; teks gelap tanpa outline.
 - `holdHigh` dengan properti menutupi wajah di close-up. Pakai `lift` atau `pointUp`.
 - Teks papan tulis dan stempel yang lebar terpotong. Pakai lebar bidang sekitar 1,6 dan kamera lebih jauh.
 - Cahaya halo/lampu titik terlalu terang membuat objek menguning. Turunkan intensitas.
@@ -52,6 +57,7 @@ Pilih set dengan `showSets('street')`. Cahaya: `applyLight('day' | 'night' | 'go
 - Render penuh 1426 frame di 720x1280 sekitar 50 menit (sekitar 2 dtk per frame).
 
 ### Contoh kartun
+- `examples/gps`: "Rahasia titik biru di tengah laut" (60 dtk, Indonesia, sains). Papan 2D (`drawPanel`: phone, tri trilaterasi, delay, clocks, listen) dan `hud()` untuk label/gelembung yang selalu masuk layar (posisi pecahan layar, bukan koordinat dunia).
 - `examples/penisilin`: kisah penisilin (76 dtk).
 - `examples/esloli`: "Es Punya Papa" (47,5 dtk, Indonesia). Pembuka di porch, twist di `room`.
 - `examples/mata-gelap`: "Kenapa mata loading saat gelap" (59 dtk, Indonesia, sains). Kartu mata 2D dengan cincin loading (`drawEye`), kartu jam/label/vitamin di `drawFx`.
